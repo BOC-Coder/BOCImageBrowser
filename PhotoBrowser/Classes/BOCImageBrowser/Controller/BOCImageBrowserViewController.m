@@ -405,7 +405,7 @@ static CGFloat ImageMargin = 15;
     
     if ([self.delegate respondsToSelector:@selector(imageBrowser:imageViewForStartAnimationAtIndex:)]) {
         
-        UIImageView *imgView = [self.delegate imageBrowser:self imageViewForStartAnimationAtIndex:self.startIndex];
+        UIImageView *imgView = [self.delegate imageBrowser:self imageViewForStartAnimationAtIndex:self.currentIndex];
         if (imgView) {
             deinitFrame = [imgView convertRect:imgView.bounds toView: nil];
         }
@@ -454,7 +454,7 @@ static CGFloat ImageMargin = 15;
             
         }];
         
-        UIAlertAction *cancelAC= [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+        UIAlertAction *cancelAC= [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
 
         [alertVC addAction:ac];
         [alertVC addAction:cancelAC];

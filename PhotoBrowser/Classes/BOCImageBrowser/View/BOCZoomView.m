@@ -73,8 +73,6 @@
 
 #pragma mark - 处理点击和手势
 - (void)oneTap:(UITapGestureRecognizer *)tap {
-
-//    [self.delegate zoomView(self, didOneTap: tap)]
     if ([self.delegate respondsToSelector:@selector(zoomView:didOneTap:)]) {
         [self.delegate zoomView:self didOneTap:tap];
     }
@@ -103,7 +101,9 @@
 -(void)longPress:(UILongPressGestureRecognizer *)longPress {
     if (self.imageView.image == nil) return;
 
-//    self.delegate?.zoomView(self, didLongPress: longPress)
+    if ([self.delegate respondsToSelector:@selector(zoomView:didLongPress:)]) {
+        [self.delegate zoomView:self didLongPress:longPress];
+    }
     
 }
 
