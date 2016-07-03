@@ -111,12 +111,9 @@ static CGFloat ImageMargin = 15;
     
     if (self.showPageLabel == NO) return;
     
-    CGFloat ScreenWidth = [UIScreen mainScreen].bounds.size.width;
-//    CGFloat ScreenHeight = [UIScreen mainScreen].bounds.size.height;
-    
     CGFloat labW = 100;
     
-    CGFloat labX = (ScreenWidth - labW) * 0.5;
+    CGFloat labX = (BOCImageBrowserGetScreenWidth - labW) * 0.5;
     
     CGFloat labH = 35;
     
@@ -575,13 +572,10 @@ static CGFloat ImageMargin = 15;
 
 - (CGRect)centerImageFrame {
     
-    CGFloat ScreenWidth = [UIScreen mainScreen].bounds.size.width;
-    CGFloat ScreenHeight = [UIScreen mainScreen].bounds.size.height;
-    
-    CGFloat width = ScreenWidth / 3.0;
+    CGFloat width = BOCImageBrowserGetScreenWidth / 3.0;
     CGFloat height = width;
-    CGFloat x = (ScreenWidth - width) * 0.5;
-    CGFloat y = (ScreenHeight - height) * 0.5;
+    CGFloat x = (BOCImageBrowserGetScreenWidth - width) * 0.5;
+    CGFloat y = (BOCImageBrowserGetScreenHeight - height) * 0.5;
     return CGRectMake(x, y, width, height);
 }
 

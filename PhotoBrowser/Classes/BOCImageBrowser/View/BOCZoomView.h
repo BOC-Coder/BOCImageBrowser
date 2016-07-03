@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#define BOCImageBrowserGetScreenHeight [UIScreen mainScreen].bounds.size.height
+#define BOCImageBrowserGetScreenWidth [UIScreen mainScreen].bounds.size.width
 
 static double AnimationTime = 0.5;
 
