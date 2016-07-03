@@ -104,19 +104,26 @@ static NSString *TableViewCellIdentifier = @"TableViewCellIdentifier";
     self.currentCell = cell;
     
     // 创建图片浏览器
-    BOCImageBrowserViewController *vc = [[BOCImageBrowserViewController alloc]initWithDataSource:tempAry startIndex:index isNetwork:YES delegate:self];
+    BOCImageBrowserViewController *vc =
+    [[BOCImageBrowserViewController alloc]initWithDataSource:tempAry
+     
+                                                  startIndex:index
+     
+                                                   isNetwork:YES
+     
+                                                    delegate:self];
     
     [self.navigationController presentViewController:vc animated:YES completion:nil];
     
 }
 
 #pragma mark - <BOCImageBrowserViewControllerDelegate>
+/**
+ *  实现代理方法 返回与下标相对应的 UIImageView
+ */
 - (UIImageView *)imageBrowser:(BOCImageBrowserViewController *)imageBrowser imageViewForStartAnimationAtIndex:(NSInteger)index
 {
     UIImageView *imgView = [self.currentCell imageViewAtIndex:index];
-
-    NSLog(@"%ld---%@",index, NSStringFromCGRect(imgView.frame));
-
     
     return imgView;
 }
