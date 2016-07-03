@@ -14,6 +14,9 @@
 // 滚动时左右两张图片的间距
 static CGFloat ImageMargin = 15;
 
+// 判断横竖屏
+#define IsPortrait (self.view.frame.size.width < self.view.frame.size.height)
+
 @interface BOCImageBrowserViewController ()<UIScrollViewDelegate, BOCZoomViewDelegate>
 
 /// 是否可以执行start动画 default is YES
@@ -67,7 +70,7 @@ static CGFloat ImageMargin = 15;
         self.delegate = delegate;
         
         // 竖屏才加间距
-        if (self.view.frame.size.width < self.view.frame.size.height) {
+        if (IsPortrait) {
             CGRect temp = self.view.frame;
             temp.size.width += ImageMargin;
             self.view.frame = temp;
