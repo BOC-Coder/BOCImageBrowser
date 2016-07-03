@@ -415,6 +415,8 @@ static CGFloat ImageMargin = 15;
         
         self.view.backgroundColor = [UIColor clearColor];
         
+        self.lab.alpha = 0.0;
+        
         [currentZoomView imageEndAnimationWithFrame:deinitFrame];
         
     } completion:^(BOOL finished) {
