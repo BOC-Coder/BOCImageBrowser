@@ -173,17 +173,37 @@ static CGFloat ImageMargin = 15;
 #pragma mark - 处理横屏
 - (BOOL)shouldAutorotate
 {
-    return (BOCImageBrowserIs_iPad) ? YES : NO;
+    return (BOCImageBrowserIs_iPad) ? YES : [self deviceAutorotate];
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
-    return (BOCImageBrowserIs_iPad) ? UIInterfaceOrientationMaskAll : UIInterfaceOrientationMaskPortrait;
+    return (BOCImageBrowserIs_iPad) ? UIInterfaceOrientationMaskAll : [self deviceSupportOrientations];
+}
+
+- (UIInterfaceOrientationMask)deviceSupportOrientations
+{
+    NSArray *ary =  [[NSBundle mainBundle] infoDictionary][@"UISupportedInterfaceOrientations"];
+    UIInterfaceOrientationMask oriMask = UIInterfaceOrientationMaskPortrait;
+    for (NSString *str in ary) {
+        if ([str isEqualToString:@"UIInterfaceOrientationLandscapeLeft"]) {
+            oriMask |= UIInterfaceOrientationMaskLandscapeLeft;
+        } if ([str isEqualToString:@"UIInterfaceOrientationLandscapeRight"]) {
+            oriMask |= UIInterfaceOrientationMaskLandscapeRight;
+        }
+    }
+    return oriMask;
+}
+
+- (BOOL)deviceAutorotate {
+    return ([self deviceSupportOrientations] == UIInterfaceOrientationMaskPortrait) ?
+    NO : YES;
 }
 
 - (void)deviceOrientationDidChange:(NSNotification *)note
 {
-    if (BOCImageBrowserIs_iPad) return;
+    if (BOCImageBrowserIs_iPad || [self deviceAutorotate]) return;
+    
     [UIView animateWithDuration:AnimationTime animations:^{
         CGAffineTransform rotation;
         switch ([UIDevice currentDevice].orientation) {
@@ -208,7 +228,7 @@ static CGFloat ImageMargin = 15;
 
 - (void)animateWithRotation:(CGAffineTransform)rotation isPortrait:(BOOL)isPortrait
 {
-    if (BOCImageBrowserIs_iPad) return;
+    if (BOCImageBrowserIs_iPad || [self deviceAutorotate]) return;
     
     if (self.datas == nil) return;
     
@@ -251,7 +271,7 @@ static CGFloat ImageMargin = 15;
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    if (!BOCImageBrowserIs_iPad) return;
+    if (![self deviceAutorotate]) return;
     
     if (self.datas == nil) return;
     
@@ -670,5 +690,6 @@ static CGFloat ImageMargin = 15;
     CGFloat y = (self.view.frame.size.height - height) * 0.5;
     return CGRectMake(x, y, width, height);
 }
+
 
 @end
