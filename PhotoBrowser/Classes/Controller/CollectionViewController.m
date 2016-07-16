@@ -85,7 +85,6 @@ static NSString * const reuseIdentifier = @"CollectionViewCell";
     BOCImageBrowserViewController *vc = [[BOCImageBrowserViewController alloc]initWithDataSource:self.datas startIndex:indexPath.item isNetwork:YES delegate:self];
  
     [self presentViewController:vc animated:YES completion:nil];
-    
 }
 
 #pragma mark - <BOCImageBrowserViewControllerDelegate>

@@ -186,9 +186,7 @@ static CGFloat ImageMargin = 15;
 
 - (void)deviceOrientationDidChange:(NSNotification *)note
 {
-    if (BOCImageBrowserIs_iPad) {
-        return;
-    }
+    if (BOCImageBrowserIs_iPad) return;
     [UIView animateWithDuration:AnimationTime animations:^{
         CGAffineTransform rotation;
         switch ([UIDevice currentDevice].orientation) {
@@ -213,6 +211,7 @@ static CGFloat ImageMargin = 15;
 
 - (void)animateWithRotation:(CGAffineTransform)rotation isPortrait:(BOOL)isPortrait
 {
+    if (BOCImageBrowserIs_iPad) return;
     
     if (self.datas == nil) return;
     
