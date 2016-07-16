@@ -417,7 +417,7 @@ static CGFloat ImageMargin = 15;
             // 下载图片
             [BOCActivityView showInView:zoomView color:[UIColor whiteColor]];
             
-            [zoomView.imageView sd_setImageWithURL:[NSURL URLWithString:self.datas[index]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            [zoomView.imageView sd_setImageWithURL:[NSURL URLWithString:self.datas[index]] placeholderImage:imgView.image completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                 // 如果没有图片就停止活动指示器
                 [BOCActivityView stopAllAnimatingAndRemoveFromView:zoomView];
                 
@@ -489,41 +489,37 @@ static CGFloat ImageMargin = 15;
 }
 
 - (void)hideWithAnimation {
-    
-//    [UIView animateWithDuration:AnimationTime animations:^{
-//    } completion:^(BOOL finished) {
         // 判断代理是否相应
-        self.view.superview.backgroundColor = [UIColor clearColor];
+    self.view.superview.backgroundColor = [UIColor clearColor];
+    
+    CGRect deinitFrame = CGRectZero;
+    BOCZoomView *currentZoomView = self.currentZoomView;
+    
+    if ([self.delegate respondsToSelector:@selector(imageBrowser:imageViewForStartAnimationAtIndex:)]) {
         
-        CGRect deinitFrame = CGRectZero;
-        BOCZoomView *currentZoomView = self.currentZoomView;
-        
-        if ([self.delegate respondsToSelector:@selector(imageBrowser:imageViewForStartAnimationAtIndex:)]) {
-            
-            UIImageView *imgView = [self.delegate imageBrowser:self imageViewForStartAnimationAtIndex:self.currentIndex];
-            if (imgView) {
-                deinitFrame = [imgView convertRect:imgView.bounds toView: nil];
-            }
+        UIImageView *imgView = [self.delegate imageBrowser:self imageViewForStartAnimationAtIndex:self.currentIndex];
+        if (imgView) {
+            deinitFrame = [imgView convertRect:imgView.bounds toView: nil];
         }
+    }
+    
+    [UIView animateWithDuration:AnimationTime animations:^{
         
-        [UIView animateWithDuration:AnimationTime animations:^{
-            
-            [self animateWithRotation:CGAffineTransformIdentity isPortrait:YES];
+        [self animateWithRotation:CGAffineTransformIdentity isPortrait:YES];
 
-            
-            self.view.backgroundColor = [UIColor clearColor];
-            
-            self.lab.alpha = 0.0;
-            
-            [currentZoomView imageEndAnimationWithFrame:deinitFrame];
-            
-        } completion:^(BOOL finished) {
-            
-            [self dismissViewControllerAnimated:YES completion:nil];
-            
-        }];
         
-//    }];
+        self.view.backgroundColor = [UIColor clearColor];
+        
+        self.lab.alpha = 0.0;
+        
+        [currentZoomView imageEndAnimationWithFrame:deinitFrame];
+        
+    } completion:^(BOOL finished) {
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
+        
+    }];
+        
 }
 
 /*---------------------------------- 实现代理的方法 ----------------------------------------*/

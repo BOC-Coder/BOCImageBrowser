@@ -22,14 +22,14 @@
  *
  *  @return 返回一个与当前图片相对应的UIImageView对象
  *
- *  (如果没有实现这个方法, 或返回值为nil, 就会执行淡入淡出的效果)
+ *  ******  如果没有实现这个方法, 或返回值为nil, 就会执行淡入淡出的效果 ******
  */
 - (UIImageView *)imageBrowser:(BOCImageBrowserViewController *)imageBrowser imageViewForStartAnimationAtIndex:(NSInteger)index;
 
 /**
  *  当图片被长按时回调这个方法
  *
- *  (如果不实现，默认就是弹出ActionSheet提示保存图片到相册)
+ *  ******  如果没有实现这个方法，默认就是弹出ActionSheet提示保存图片到相册  *******
  *
  *  @param iamge        当前显示在浏览器上的图片
  *  @param longPress    长按的UILongPressGestureRecognizer对象
