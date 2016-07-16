@@ -16,6 +16,7 @@ static CGFloat ImageMargin = 15;
 
 // 判断横竖屏
 #define IsPortrait [UIDevice currentDevice].orientation == UIDeviceOrientationPortrait
+
 #define BOCImageBrowserIs_iPad [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad
 
 @interface BOCImageBrowserViewController ()<UIScrollViewDelegate, BOCZoomViewDelegate>
@@ -74,12 +75,6 @@ static CGFloat ImageMargin = 15;
         
         self.delegate = delegate;
         
-        // 竖屏才加间距
-        if (IsPortrait) {
-            CGRect temp = self.view.frame;
-            temp.size.width += ImageMargin;
-            self.view.frame = temp;
-        }
         // 配置scrollView 显示图片
         [self setupScrollView];
     }
@@ -108,9 +103,13 @@ static CGFloat ImageMargin = 15;
     
     CGFloat width = self.view.frame.size.width * count;
     
+    // 竖屏才加间距
+    if (IsPortrait) {
+        width += count * ImageMargin;
+    }
     self.scrollView.contentSize = CGSizeMake(width, 0);
     
-    self.scrollView.frame = self.view.bounds;
+    self.scrollView.frame = (CGRect){CGPointZero, CGSizeMake(width / count, self.view.frame.size.height)};
     
     // 展示图片
     [self showImageViewAtIndex:self.startIndex];
@@ -190,39 +189,33 @@ static CGFloat ImageMargin = 15;
     if (BOCImageBrowserIs_iPad) {
         return;
     }
-    CGAffineTransform rotation;
-    
-    switch ([UIDevice currentDevice].orientation) {
-            
-        case UIDeviceOrientationLandscapeLeft:
-            
-            rotation = CGAffineTransformMakeRotation(M_PI * 90.0 / 180.0);
-            [self animateWithRotation:rotation];
-            break;
-        case UIDeviceOrientationLandscapeRight:
-            rotation = CGAffineTransformMakeRotation(M_PI * 270.0 / 180.0);
-            [self animateWithRotation:rotation];
-            break;
-            
-        case UIDeviceOrientationPortrait:
-            rotation = CGAffineTransformIdentity;
-            [self animateWithRotation:rotation];
-            break;
-            
-        default:
-            return;
-            
-    }
-    
+    [UIView animateWithDuration:AnimationTime animations:^{
+        CGAffineTransform rotation;
+        switch ([UIDevice currentDevice].orientation) {
+            case UIDeviceOrientationLandscapeLeft:
+                rotation = CGAffineTransformMakeRotation(M_PI * 90.0 / 180.0);
+                [self animateWithRotation:rotation isPortrait:IsPortrait];
+                break;
+            case UIDeviceOrientationLandscapeRight:
+                rotation = CGAffineTransformMakeRotation(M_PI * 270.0 / 180.0);
+                [self animateWithRotation:rotation isPortrait:IsPortrait];
+                break;
+                
+            case UIDeviceOrientationPortrait:
+                rotation = CGAffineTransformIdentity;
+                [self animateWithRotation:rotation isPortrait:IsPortrait];
+                break;
+            default:
+                break;
+        }
+    }];
 }
 
-- (void)animateWithRotation:(CGAffineTransform)rotation
+- (void)animateWithRotation:(CGAffineTransform)rotation isPortrait:(BOOL)isPortrait
 {
     
     if (self.datas == nil) return;
     
-    [UIView animateWithDuration:AnimationTime animations:^{
-       
         self.view.transform = rotation;
         
         BOCZoomView *currentZoomView = self.currentZoomView;
@@ -230,7 +223,7 @@ static CGFloat ImageMargin = 15;
         if (currentZoomView == nil) return;
         
         // 如果是竖屏 加间距
-        if (IsPortrait) {
+        if (isPortrait) {
             
             self.view.bounds = [UIScreen mainScreen].bounds;
             
@@ -257,7 +250,6 @@ static CGFloat ImageMargin = 15;
         self.scrollView.contentSize = CGSizeMake(width * self.datas.count, 0);
         
         [self pageLabUpdateFrame];
-    }];
     
     }
 
@@ -489,39 +481,49 @@ static CGFloat ImageMargin = 15;
     } completion:^(BOOL finished) {
         [self updatePageLabel];
         self.view.superview.backgroundColor = [UIColor blackColor];
+        
+        [self deviceOrientationDidChange:nil];
+        
     }];
     
 }
 
 - (void)hideWithAnimation {
-    // 判断代理是否相应
-    self.view.superview.backgroundColor = [UIColor clearColor];
-
-    CGRect deinitFrame = CGRectZero;
-    BOCZoomView *currentZoomView = self.currentZoomView;
     
-    if ([self.delegate respondsToSelector:@selector(imageBrowser:imageViewForStartAnimationAtIndex:)]) {
+//    [UIView animateWithDuration:AnimationTime animations:^{
+//    } completion:^(BOOL finished) {
+        // 判断代理是否相应
+        self.view.superview.backgroundColor = [UIColor clearColor];
         
-        UIImageView *imgView = [self.delegate imageBrowser:self imageViewForStartAnimationAtIndex:self.currentIndex];
-        if (imgView) {
-            deinitFrame = [imgView convertRect:imgView.bounds toView: nil];
+        CGRect deinitFrame = CGRectZero;
+        BOCZoomView *currentZoomView = self.currentZoomView;
+        
+        if ([self.delegate respondsToSelector:@selector(imageBrowser:imageViewForStartAnimationAtIndex:)]) {
+            
+            UIImageView *imgView = [self.delegate imageBrowser:self imageViewForStartAnimationAtIndex:self.currentIndex];
+            if (imgView) {
+                deinitFrame = [imgView convertRect:imgView.bounds toView: nil];
+            }
         }
-    }
+        
+        [UIView animateWithDuration:AnimationTime animations:^{
+            
+            [self animateWithRotation:CGAffineTransformIdentity isPortrait:YES];
 
-    [UIView animateWithDuration:AnimationTime animations:^{
+            
+            self.view.backgroundColor = [UIColor clearColor];
+            
+            self.lab.alpha = 0.0;
+            
+            [currentZoomView imageEndAnimationWithFrame:deinitFrame];
+            
+        } completion:^(BOOL finished) {
+            
+            [self dismissViewControllerAnimated:YES completion:nil];
+            
+        }];
         
-        self.view.backgroundColor = [UIColor clearColor];
-        
-        self.lab.alpha = 0.0;
-        
-        [currentZoomView imageEndAnimationWithFrame:deinitFrame];
-        
-    } completion:^(BOOL finished) {
-        
-        [self dismissViewControllerAnimated:YES completion:nil];
-        
-    }];
-
+//    }];
 }
 
 /*---------------------------------- 实现代理的方法 ----------------------------------------*/
@@ -658,7 +660,6 @@ static CGFloat ImageMargin = 15;
     }
     return _reusebleViews;
 }
-
 
 - (BOCZoomView *)currentZoomView {
     // 找到当前正在显示的那个图片
