@@ -82,8 +82,12 @@ static NSString * const reuseIdentifier = @"CollectionViewCell";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     // 点击cell的时候 弹出图片浏览器
-    BOCImageBrowserViewController *vc = [[BOCImageBrowserViewController alloc]initWithDataSource:self.datas startIndex:indexPath.item isNetwork:YES delegate:self];
- 
+    BOCImageBrowserViewController *vc =
+    [[BOCImageBrowserViewController alloc]initWithDataSource:self.datas
+                                                  startIndex:indexPath.item
+                                                   isNetwork:YES
+                                                    delegate:self];
+    
     [self presentViewController:vc animated:YES completion:nil];
 }
 
@@ -94,6 +98,5 @@ static NSString * const reuseIdentifier = @"CollectionViewCell";
     
     return cell.imgView;
 }
-
 
 @end

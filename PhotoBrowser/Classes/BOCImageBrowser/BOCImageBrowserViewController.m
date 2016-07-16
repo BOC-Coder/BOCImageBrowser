@@ -173,15 +173,12 @@ static CGFloat ImageMargin = 15;
 #pragma mark - 处理横屏
 - (BOOL)shouldAutorotate
 {
-    if (BOCImageBrowserIs_iPad) {
-        return YES;
-    }
-    return NO;
+    return (BOCImageBrowserIs_iPad) ? YES : NO;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskAll;
+    return (BOCImageBrowserIs_iPad) ? UIInterfaceOrientationMaskAll : UIInterfaceOrientationMaskPortrait;
 }
 
 - (void)deviceOrientationDidChange:(NSNotification *)note
@@ -505,7 +502,6 @@ static CGFloat ImageMargin = 15;
     [UIView animateWithDuration:AnimationTime animations:^{
         
         [self animateWithRotation:CGAffineTransformIdentity isPortrait:YES];
-
         
         self.view.backgroundColor = [UIColor clearColor];
         
