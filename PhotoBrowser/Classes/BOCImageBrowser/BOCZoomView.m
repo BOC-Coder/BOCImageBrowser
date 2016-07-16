@@ -115,8 +115,8 @@
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView
 {
-    CGFloat ScreenWidth = BOCImageBrowserGetScreenWidth;
-    CGFloat ScreenHeight = BOCImageBrowserGetScreenHeight;
+    CGFloat ScreenWidth = self.frame.size.width;
+    CGFloat ScreenHeight = self.frame.size.height;
     
     CGFloat centerX = ScreenWidth * 0.5;
     if (self.imageView.frame.size.width > ScreenWidth) {
@@ -135,8 +135,8 @@
 // 设置完图片后调用
 - (void)didSetImage
 {
-    CGFloat ScreenWidth = BOCImageBrowserGetScreenWidth;
-    CGFloat ScreenHeight = BOCImageBrowserGetScreenHeight;
+    CGFloat ScreenWidth = self.frame.size.width;
+    CGFloat ScreenHeight = self.frame.size.height;
     
     self.zoomScrollView.zoomScale = self.zoomScrollView.minimumZoomScale;
         

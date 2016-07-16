@@ -113,7 +113,7 @@ static NSString *TableViewCellIdentifier = @"TableViewCellIdentifier";
      
                                                     delegate:self];
     
-    [self.navigationController presentViewController:vc animated:YES completion:nil];
+    [self presentViewController:vc animated:YES completion:nil];
     
 }
 

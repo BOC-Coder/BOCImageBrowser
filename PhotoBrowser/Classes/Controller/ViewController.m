@@ -27,13 +27,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+
 - (IBAction)toCollectionView {
 
     CollectionViewController *vc = [[CollectionViewController alloc] init];
     
     [self.navigationController pushViewController:vc animated:YES];
-    
-
 }
 
 - (IBAction)toTableView {

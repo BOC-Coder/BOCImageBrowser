@@ -59,10 +59,10 @@
             </objects>
             <point key="canvasLocation" x="750" y="339"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Navi View Controller-->
         <scene sceneID="s7e-Cw-N8B">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UCk-hg-iFO" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UCk-hg-iFO" customClass="NaviViewController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="iWd-Tt-oUv">

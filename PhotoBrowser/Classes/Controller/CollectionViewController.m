@@ -61,7 +61,6 @@ static NSString * const reuseIdentifier = @"CollectionViewCell";
     
 }
 
-
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -85,7 +84,7 @@ static NSString * const reuseIdentifier = @"CollectionViewCell";
     // 点击cell的时候 弹出图片浏览器
     BOCImageBrowserViewController *vc = [[BOCImageBrowserViewController alloc]initWithDataSource:self.datas startIndex:indexPath.item isNetwork:YES delegate:self];
  
-    [self.navigationController presentViewController:vc animated:YES completion:nil];
+    [self presentViewController:vc animated:YES completion:nil];
     
 }
 
