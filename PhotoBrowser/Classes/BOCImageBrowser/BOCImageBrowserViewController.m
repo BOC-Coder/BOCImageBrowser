@@ -135,8 +135,9 @@ static CGFloat ImageMargin = 10;
 }
 
 - (void)updatePageLabel {
-    if (self.showPageLabel == true) {
-        self.lab.text = [NSString stringWithFormat:@"%ld／%ld",self.currentIndex + 1,self.datas.count];
+    if (self.showPageLabel == true) {        
+        NSInteger index = self.scrollView.contentOffset.x / self.scrollView.bounds.size.width + 0.5;
+        self.lab.text = [NSString stringWithFormat:@"%ld／%ld",index + 1,self.datas.count];
         [self.lab sizeToFit];
         
         [UIView animateWithDuration:AnimationTime animations:^{
@@ -243,6 +244,8 @@ static CGFloat ImageMargin = 10;
     
     if (currentZoomView == nil) return;
     
+    self.scrollView.delegate = nil;
+    
     // 如果是竖屏 加间距
     if (isPortrait) {
         
@@ -269,6 +272,8 @@ static CGFloat ImageMargin = 10;
     self.scrollView.contentSize = CGSizeMake(width * self.datas.count, 0);
 
     [self pageLabUpdateFrame];
+    
+    self.scrollView.delegate = self;
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -282,6 +287,8 @@ static CGFloat ImageMargin = 10;
     BOCZoomView *currentZoomView = self.currentZoomView;
     
     if (currentZoomView == nil) return;
+    
+    self.scrollView.delegate = nil;
     
     // 如果是竖屏 加间距
     if (toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown ) {
@@ -303,6 +310,8 @@ static CGFloat ImageMargin = 10;
     }
     self.scrollView.contentOffset = CGPointMake(index * width, 0);
     self.scrollView.contentSize = CGSizeMake(width * self.datas.count, 0);
+    
+    self.scrollView.delegate = self;
 }
 
 /*------------------------------------- 重用机制 ------------------------------------------*/
@@ -545,7 +554,6 @@ static CGFloat ImageMargin = 10;
     
     [self showImage];
 }
-
 
 #pragma mark - BOCZoomViewDelegate
 - (void)zoomView:(BOCZoomView *)zoomView didLongPress:(UILongPressGestureRecognizer *)longPress
