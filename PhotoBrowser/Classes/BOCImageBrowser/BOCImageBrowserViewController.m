@@ -135,7 +135,7 @@ static CGFloat ImageMargin = 10;
 }
 
 - (void)updatePageLabel {
-    if (self.showPageLabel == true) {        
+    if (self.showPageLabel == true) {
         NSInteger index = self.scrollView.contentOffset.x / self.scrollView.bounds.size.width + 0.5;
         self.lab.text = [NSString stringWithFormat:@"%ld／%ld",index + 1,self.datas.count];
         [self.lab sizeToFit];
@@ -231,20 +231,19 @@ static CGFloat ImageMargin = 10;
 
 - (void)animateWithRotation:(CGAffineTransform)rotation isPortrait:(BOOL)isPortrait
 {
-    
-    NSInteger index = self.currentIndex;
-
     if (BOCImageBrowserIs_iPad || [self deviceAutorotate]) return;
     
     if (self.datas == nil) return;
-    
-    self.view.transform = rotation;
     
     BOCZoomView *currentZoomView = self.currentZoomView;
     
     if (currentZoomView == nil) return;
     
+    NSInteger index = self.currentIndex;
+    
     self.scrollView.delegate = nil;
+    
+    self.view.transform = rotation;
     
     // 如果是竖屏 加间距
     if (isPortrait) {
@@ -282,11 +281,11 @@ static CGFloat ImageMargin = 10;
     
     if (self.datas == nil) return;
     
-    NSInteger index = self.currentIndex;
-    
     BOCZoomView *currentZoomView = self.currentZoomView;
     
     if (currentZoomView == nil) return;
+    
+    NSInteger index = self.currentIndex;
     
     self.scrollView.delegate = nil;
     
@@ -698,6 +697,5 @@ static CGFloat ImageMargin = 10;
     CGFloat y = (self.view.frame.size.height - height) * 0.5;
     return CGRectMake(x, y, width, height);
 }
-
 
 @end
