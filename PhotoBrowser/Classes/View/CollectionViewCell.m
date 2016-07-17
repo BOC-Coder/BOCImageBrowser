@@ -10,7 +10,6 @@
 #import <UIImageView+WebCache.h>
 
 @interface CollectionViewCell ()
-
 @end
 
 @implementation CollectionViewCell
