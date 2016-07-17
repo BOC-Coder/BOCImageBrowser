@@ -17,7 +17,7 @@
 ###Demo:
 -  无论你的项目是否支持横竖屏，它都可以旋转
 
-<img src="http://upload-images.jianshu.io/upload_images/2385017-1cba983496362734.gif?imageMogr2/auto-orient/strip">
+![PB2.gif](http://upload-images.jianshu.io/upload_images/2385017-1cba983496362734.gif?imageMogr2/auto-orient/strip)
 ###How to use:
 
 - 下载zip文件
