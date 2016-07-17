@@ -22,10 +22,10 @@
 		B49EA5811D39E2CE007F2340 /* NaviViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B49EA5801D39E2CE007F2340 /* NaviViewController.m */; };
 		B49EA5871D3A2D1A007F2340 /* BOCImageBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B49EA5841D3A2D1A007F2340 /* BOCImageBrowserViewController.m */; };
 		B49EA5881D3A2D1A007F2340 /* BOCZoomView.m in Sources */ = {isa = PBXBuildFile; fileRef = B49EA5861D3A2D1A007F2340 /* BOCZoomView.m */; };
-		B49EA5911D3A2D52007F2340 /* BOCActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = B49EA58B1D3A2D52007F2340 /* BOCActivityView.m */; };
 		B49EA5921D3A2D52007F2340 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B49EA58D1D3A2D52007F2340 /* CollectionViewCell.m */; };
 		B49EA5931D3A2D52007F2340 /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B49EA58E1D3A2D52007F2340 /* CollectionViewCell.xib */; };
 		B49EA5941D3A2D52007F2340 /* TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B49EA5901D3A2D52007F2340 /* TableViewCell.m */; };
+		B4B912911D3A708700498445 /* BOCActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B912901D3A708700498445 /* BOCActivityView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,13 +56,13 @@
 		B49EA5841D3A2D1A007F2340 /* BOCImageBrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BOCImageBrowserViewController.m; sourceTree = "<group>"; };
 		B49EA5851D3A2D1A007F2340 /* BOCZoomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BOCZoomView.h; sourceTree = "<group>"; };
 		B49EA5861D3A2D1A007F2340 /* BOCZoomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BOCZoomView.m; sourceTree = "<group>"; };
-		B49EA58A1D3A2D52007F2340 /* BOCActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BOCActivityView.h; sourceTree = "<group>"; };
-		B49EA58B1D3A2D52007F2340 /* BOCActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BOCActivityView.m; sourceTree = "<group>"; };
 		B49EA58C1D3A2D52007F2340 /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
 		B49EA58D1D3A2D52007F2340 /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
 		B49EA58E1D3A2D52007F2340 /* CollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
 		B49EA58F1D3A2D52007F2340 /* TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewCell.h; sourceTree = "<group>"; };
 		B49EA5901D3A2D52007F2340 /* TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewCell.m; sourceTree = "<group>"; };
+		B4B9128F1D3A708700498445 /* BOCActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BOCActivityView.h; sourceTree = "<group>"; };
+		B4B912901D3A708700498445 /* BOCActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BOCActivityView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +162,8 @@
 				B49EA5841D3A2D1A007F2340 /* BOCImageBrowserViewController.m */,
 				B49EA5851D3A2D1A007F2340 /* BOCZoomView.h */,
 				B49EA5861D3A2D1A007F2340 /* BOCZoomView.m */,
+				B4B9128F1D3A708700498445 /* BOCActivityView.h */,
+				B4B912901D3A708700498445 /* BOCActivityView.m */,
 			);
 			path = BOCImageBrowser;
 			sourceTree = "<group>";
@@ -169,8 +171,6 @@
 		B49EA5891D3A2D52007F2340 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				B49EA58A1D3A2D52007F2340 /* BOCActivityView.h */,
-				B49EA58B1D3A2D52007F2340 /* BOCActivityView.m */,
 				B49EA58C1D3A2D52007F2340 /* CollectionViewCell.h */,
 				B49EA58D1D3A2D52007F2340 /* CollectionViewCell.m */,
 				B49EA58E1D3A2D52007F2340 /* CollectionViewCell.xib */,
@@ -329,8 +329,8 @@
 				B49EA5811D39E2CE007F2340 /* NaviViewController.m in Sources */,
 				B4217D381D26C72100DC2939 /* TableViewController.m in Sources */,
 				B4217D171D26C1E900DC2939 /* main.m in Sources */,
+				B4B912911D3A708700498445 /* BOCActivityView.m in Sources */,
 				B4217D851D26D37F00DC2939 /* CustomCollectionViewLayout.m in Sources */,
-				B49EA5911D3A2D52007F2340 /* BOCActivityView.m in Sources */,
 				B49EA5921D3A2D52007F2340 /* CollectionViewCell.m in Sources */,
 				B49EA5881D3A2D1A007F2340 /* BOCZoomView.m in Sources */,
 			);

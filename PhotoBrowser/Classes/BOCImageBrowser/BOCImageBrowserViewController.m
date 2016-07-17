@@ -6,13 +6,15 @@
 //  Copyright © 2016年 liang. All rights reserved.
 //
 
+
+
 #import "BOCImageBrowserViewController.h"
 #import "BOCZoomView.h"
 #import "BOCActivityView.h"
 #import <UIImageView+WebCache.h>
 
 // 滚动时左右两张图片的间距
-static CGFloat ImageMargin = 15;
+static CGFloat ImageMargin = 10;
 
 // 判断横竖屏
 #define IsPortrait [UIDevice currentDevice].orientation == UIDeviceOrientationPortrait
@@ -228,46 +230,46 @@ static CGFloat ImageMargin = 15;
 
 - (void)animateWithRotation:(CGAffineTransform)rotation isPortrait:(BOOL)isPortrait
 {
+    
+    NSInteger index = self.currentIndex;
+
     if (BOCImageBrowserIs_iPad || [self deviceAutorotate]) return;
     
     if (self.datas == nil) return;
     
-        self.view.transform = rotation;
-        
-        BOCZoomView *currentZoomView = self.currentZoomView;
-        
-        if (currentZoomView == nil) return;
-        
-        // 如果是竖屏 加间距
-        if (isPortrait) {
-            
-            self.view.bounds = [UIScreen mainScreen].bounds;
-            
-            CGRect frame = self.view.frame;
-            frame.size.width += ImageMargin;
-            self.scrollView.frame = frame;
-        } else {
-            self.view.bounds = CGRectMake(0.0, 0.0, BOCImageBrowserGetScreenHeight, BOCImageBrowserGetScreenWidth);
-            
-            self.scrollView.frame = self.view.bounds;
-        }
-        CGFloat width = self.scrollView.frame.size.width;
-        
-        // 更新frame
-        for (BOCZoomView *zoomView in self.visibleViews) {
-            zoomView.frame = (CGRect){{width * zoomView.indexTag, 0},self.view.bounds.size};
-            
-            [zoomView didSetImage];
-        }
-        
-        CGPoint offset = currentZoomView.frame.origin;
-        self.scrollView.bounds = (CGRect){offset,self.scrollView.bounds.size};
-        
-        self.scrollView.contentSize = CGSizeMake(width * self.datas.count, 0);
-        
-        [self pageLabUpdateFrame];
+    self.view.transform = rotation;
     
+    BOCZoomView *currentZoomView = self.currentZoomView;
+    
+    if (currentZoomView == nil) return;
+    
+    // 如果是竖屏 加间距
+    if (isPortrait) {
+        
+        self.view.bounds = [UIScreen mainScreen].bounds;
+        CGRect frame = self.view.bounds;
+        frame.size.width += ImageMargin;
+        self.scrollView.frame = frame;
+    } else {
+        self.view.bounds = CGRectMake(0.0, 0.0, BOCImageBrowserGetScreenHeight, BOCImageBrowserGetScreenWidth);
+        
+        self.scrollView.frame = self.view.bounds;
     }
+
+    CGFloat width = self.scrollView.frame.size.width;
+    
+    // 更新frame
+    for (BOCZoomView *zoomView in self.visibleViews) {
+        
+        zoomView.frame = (CGRect){{width * zoomView.indexTag, 0},self.view.bounds.size};
+        
+        [zoomView didSetImage];
+    }
+    self.scrollView.contentOffset = CGPointMake(index * width, 0);
+    self.scrollView.contentSize = CGSizeMake(width * self.datas.count, 0);
+
+    [self pageLabUpdateFrame];
+}
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
@@ -275,33 +277,31 @@ static CGFloat ImageMargin = 15;
     
     if (self.datas == nil) return;
     
+    NSInteger index = self.currentIndex;
+    
     BOCZoomView *currentZoomView = self.currentZoomView;
     
     if (currentZoomView == nil) return;
     
     // 如果是竖屏 加间距
-    if (toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation      == UIInterfaceOrientationPortraitUpsideDown ) {
-        CGRect frame = self.view.frame;
+    if (toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown ) {
+        CGRect frame = self.view.bounds;
         frame.size.width += ImageMargin;
         self.scrollView.frame = frame;
     } else {
-        self.scrollView.frame = self.view.frame;
+        self.scrollView.frame = self.view.bounds;
     }
     
     CGFloat width = self.scrollView.frame.size.width;
     
-    CGFloat height = self.scrollView.frame.size.height;
-    
     // 更新frame
     for (BOCZoomView *zoomView in self.visibleViews) {
-        zoomView.frame = CGRectMake(width * zoomView.indexTag, 0, width, height);
-        
-        [UIView animateWithDuration:0.3 animations: ^{
+        zoomView.frame = (CGRect){{width * zoomView.indexTag, 0},self.view.bounds.size};
+        [UIView animateWithDuration:duration animations: ^{
             [zoomView didSetImage];
         }];
     }
-    
-    self.scrollView.bounds = currentZoomView.frame;
+    self.scrollView.contentOffset = CGPointMake(index * width, 0);
     self.scrollView.contentSize = CGSizeMake(width * self.datas.count, 0);
 }
 
@@ -318,10 +318,10 @@ static CGFloat ImageMargin = 15;
     //拿到屏幕宽度
     CGFloat width = CGRectGetWidth(visiblebounds);
     //计算在显示的那张图片的下标
-    NSInteger firstIndex = (NSInteger)floorf(minX / width);
+    NSInteger firstIndex = (NSInteger)minX / width;
     //    NSLog(@"firstIndex:%ld",firstIndex);
     //计算当前显示图片的下一张图片的下标
-    NSInteger lastIndex = (NSInteger)floorf(maxX / width);
+    NSInteger lastIndex = (NSInteger)maxX / width;
     
     //处理越界的情况
     if (firstIndex < 0) {

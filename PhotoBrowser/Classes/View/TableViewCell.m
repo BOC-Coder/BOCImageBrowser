@@ -26,7 +26,7 @@ static NSInteger cols = 3;
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        [self setup];
+//        [self setup];
     }
     return self;
 }
