@@ -66,7 +66,7 @@ delegate:self];
 // 实现了该方法才会有图片缩放的动画效果
 - (UIImageView *)imageBrowser:(BOCImageBrowserViewController *)imageBrowser imageViewForStartAnimationAtIndex:(NSInteger)index
 {
-![PB2.gif](http://upload-images.jianshu.io/upload_images/2385017-eb1f928ba62d766d.gif?imageMogr2/auto-orient/strip)
+
 CollectionViewCell *cell = (CollectionViewCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
 ddasdaadaasd
 return cell.imgView;
