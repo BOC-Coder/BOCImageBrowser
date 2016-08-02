@@ -223,19 +223,21 @@ static CGFloat ImageMargin = 10;
         switch ([UIDevice currentDevice].orientation) {
             case UIDeviceOrientationLandscapeLeft:
                 rotation = CGAffineTransformMakeRotation(M_PI * 90.0 / 180.0);
+                [self animateWithRotation:rotation isPortrait:IsPortrait];
                 break;
             case UIDeviceOrientationLandscapeRight:
                 rotation = CGAffineTransformMakeRotation(M_PI * 270.0 / 180.0);
+                [self animateWithRotation:rotation isPortrait:IsPortrait];
                 break;
             case UIDeviceOrientationPortrait:
                 rotation = CGAffineTransformIdentity;
+                [self animateWithRotation:rotation isPortrait:IsPortrait];
                 break;
             case UIDeviceOrientationPortraitUpsideDown:return;
                 break;
             default:
                 break;
         }
-        [self animateWithRotation:rotation isPortrait:IsPortrait];
     }];
 }
 
