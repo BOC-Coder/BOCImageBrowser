@@ -19,6 +19,8 @@ static CGFloat ImageMargin = 10;
 // 判断横竖屏
 #define IsPortrait [UIDevice currentDevice].orientation == UIDeviceOrientationPortrait
 
+#define NotLandscape [UIDevice currentDevice].orientation != UIDeviceOrientationLandscapeLeft || [UIDevice currentDevice].orientation != UIDeviceOrientationLandscapeRight
+
 #define BOCImageBrowserIs_iPad [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad
 
 @interface BOCImageBrowserViewController ()<UIScrollViewDelegate, BOCZoomViewDelegate>
@@ -106,7 +108,7 @@ static CGFloat ImageMargin = 10;
     CGFloat width = self.view.frame.size.width * count;
     
     // 竖屏才加间距
-    if (IsPortrait) {
+    if (NotLandscape) {
         width += count * ImageMargin;
     }
     self.scrollView.contentSize = CGSizeMake(width, 0);
@@ -212,20 +214,19 @@ static CGFloat ImageMargin = 10;
         switch ([UIDevice currentDevice].orientation) {
             case UIDeviceOrientationLandscapeLeft:
                 rotation = CGAffineTransformMakeRotation(M_PI * 90.0 / 180.0);
-                [self animateWithRotation:rotation isPortrait:IsPortrait];
                 break;
             case UIDeviceOrientationLandscapeRight:
                 rotation = CGAffineTransformMakeRotation(M_PI * 270.0 / 180.0);
-                [self animateWithRotation:rotation isPortrait:IsPortrait];
                 break;
-                
             case UIDeviceOrientationPortrait:
                 rotation = CGAffineTransformIdentity;
-                [self animateWithRotation:rotation isPortrait:IsPortrait];
                 break;
             default:
                 break;
         }
+        
+        [self animateWithRotation:rotation isPortrait:NotLandscape];
+
     }];
 }
 
