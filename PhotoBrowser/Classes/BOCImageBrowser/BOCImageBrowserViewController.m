@@ -19,7 +19,7 @@ static CGFloat ImageMargin = 10;
 // 判断横竖屏
 #define IsPortrait [UIDevice currentDevice].orientation == UIDeviceOrientationPortrait
 
-#define NotLandscape [UIDevice currentDevice].orientation != UIDeviceOrientationLandscapeLeft || [UIDevice currentDevice].orientation != UIDeviceOrientationLandscapeRight
+#define NotLandscape [UIDevice currentDevice].orientation != UIDeviceOrientationLandscapeLeft && [UIDevice currentDevice].orientation != UIDeviceOrientationLandscapeRight
 
 #define BOCImageBrowserIs_iPad [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad
 
