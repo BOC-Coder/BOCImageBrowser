@@ -418,7 +418,7 @@ static CGFloat ImageMargin = 10;
         CGPoint offset = zoomView.frame.origin;
         self.scrollView.bounds = (CGRect){offset,self.scrollView.bounds.size};
     }
-    
+
     if (self.isNetwork == true) {
         // 使用SDWebImage 加载网络图片
         [BOCActivityView stopAllAnimatingAndRemoveFromView:zoomView];
