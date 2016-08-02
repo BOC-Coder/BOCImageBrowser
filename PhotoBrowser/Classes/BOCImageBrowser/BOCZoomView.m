@@ -93,7 +93,6 @@
             self.zoomScrollView.zoomScale = minScale;
         }
 
-        
     }];
     
 }

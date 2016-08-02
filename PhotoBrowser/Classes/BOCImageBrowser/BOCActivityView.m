@@ -12,7 +12,6 @@
 #define kBlueValue @"b"
 #define kAlphaValue @"a"
 
-
 @implementation BOCActivityView
 
 + (instancetype)showInView:(UIView *)superView

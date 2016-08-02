@@ -62,6 +62,11 @@ static CGFloat ImageMargin = 10;
 
 @implementation BOCImageBrowserViewController
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 /*-------------------------------- 初始化设置与构造方法  ----------------------------------------*/
 
 #pragma mark - 初始化构造方法
@@ -119,6 +124,8 @@ static CGFloat ImageMargin = 10;
     [self showImageViewAtIndex:self.startIndex];
 }
 
+
+
 /*-------------------------------- page label 的方法  ----------------------------------------*/
 #pragma mark - page label 的方法
 - (void)pageLabUpdateFrame {
@@ -153,6 +160,8 @@ static CGFloat ImageMargin = 10;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    
     
     if (self.canStartAnimation) {
         [self showWithAnimation];
@@ -221,12 +230,12 @@ static CGFloat ImageMargin = 10;
             case UIDeviceOrientationPortrait:
                 rotation = CGAffineTransformIdentity;
                 break;
+            case UIDeviceOrientationPortraitUpsideDown:return;
+                break;
             default:
                 break;
         }
-        
-        [self animateWithRotation:rotation isPortrait:NotLandscape];
-
+        [self animateWithRotation:rotation isPortrait:IsPortrait];
     }];
 }
 
@@ -412,6 +421,7 @@ static CGFloat ImageMargin = 10;
     
     if (self.isNetwork == true) {
         // 使用SDWebImage 加载网络图片
+        [BOCActivityView stopAllAnimatingAndRemoveFromView:zoomView];
         
         // 查找本地缓存是否有图片
         UIImage *image = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:self.datas[index]];
