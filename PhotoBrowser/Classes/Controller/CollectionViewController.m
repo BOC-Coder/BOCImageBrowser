@@ -35,6 +35,9 @@
         // 网络路径
         NSString *path = [[NSBundle mainBundle]pathForResource:@"images.plist" ofType:nil];
         _datas = [NSArray arrayWithContentsOfFile:path];
+        NSMutableArray *arrM = [NSMutableArray arrayWithArray:_datas];
+        [arrM insertObject:@"aaaaaaaa" atIndex:0];
+        _datas = [NSArray arrayWithArray:arrM];
     }
     return _datas;
 }

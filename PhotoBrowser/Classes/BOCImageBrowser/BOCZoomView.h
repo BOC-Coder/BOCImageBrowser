@@ -11,8 +11,6 @@
 #define BOCImageBrowserGetScreenHeight [UIScreen mainScreen].bounds.size.height
 #define BOCImageBrowserGetScreenWidth [UIScreen mainScreen].bounds.size.width
 
-static double AnimationTime = 0.5;
-
 static CGFloat DefaultMaxScale = 1.5;
 
 @class BOCZoomView;
@@ -40,5 +38,6 @@ static CGFloat DefaultMaxScale = 1.5;
 - (void)didSetImage;
 - (void)imageStartAnimationWithInitFrame:(CGRect)initFrame;
 - (void)imageEndAnimationWithFrame:(CGRect)frame;
+- (void)setIsProcessLongPic:(BOOL)process;
 
 @end

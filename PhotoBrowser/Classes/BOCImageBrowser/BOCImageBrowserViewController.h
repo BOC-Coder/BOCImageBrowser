@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+// 滚动时左右两张图片的间距
+static CGFloat const kBOCImageBrowserImageMargin = 10;
+
+static double kBOCImageBrowserAnimationTime = 0.3;
+
 @class BOCImageBrowserViewController;
 
 @protocol BOCImageBrowserViewControllerDelegate <NSObject>
@@ -38,9 +43,12 @@
 
 @end
 
-
-
 @interface BOCImageBrowserViewController : UIViewController
+
+/**
+ *  是否处理 超长图片, default is YES;
+ */
+@property (assign, nonatomic) BOOL processTheLongPicture;
 
 /**
  *  是否显示页码, default is YES;
@@ -57,15 +65,31 @@
  *
  *  @param datas      需要加载的图片
  *  @param startIndex 从哪一张开始显示
- *  @param isNetwork  是否加载网络图片
  *  @param delegate   成为代理的对象
  *
- *  PS: if isNetwork is YES , datas中的元素为 图片的网络url字符串 , else datas中的元素为 image的文件名(非全路径)
+ *  自动判断图片的名称是否网络路径
  *
  *  @return BOCImageBrowserViewController对象
  */
-- (instancetype)initWithDataSource:(NSArray<NSString *> *)datas startIndex:(NSInteger)startIndex isNetwork:(BOOL)isNetwork delegate:(id<BOCImageBrowserViewControllerDelegate>) delegate;
+- (instancetype)initWithSourceArray:(NSArray<NSString *> *)sourceArr
+                        startIndex:(NSInteger)startIndex
+                          delegate:(id<BOCImageBrowserViewControllerDelegate>)delegate;
 
 
++ (instancetype)imageBrowserWithSourceArray:(NSArray<NSString *> *)sourceArr
+                                 startIndex:(NSInteger)startIndex
+                                   delegate:(id<BOCImageBrowserViewControllerDelegate>)delegate;
 
 @end
+
+/* 
+ 已过期的方法
+ */
+@interface BOCImageBrowserViewController (ImageBrowserDeprecated)
+
+- (instancetype)initWithDataSource:(NSArray<NSString *> *)datas startIndex:(NSInteger)startIndex isNetwork:(BOOL)isNetwork delegate:(id<BOCImageBrowserViewControllerDelegate>) delegate __deprecated_msg("Method deprecated. Use `initWithSourceArray:startIndex:delegate:`");
+
+@end
+
+
+

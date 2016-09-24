@@ -7,6 +7,13 @@
 //
 
 #import "BOCZoomView.h"
+#import "BOCImageBrowserViewController.h"
+
+@interface BOCZoomView ()
+
+@property (assign, nonatomic) BOOL isProLongPic;
+
+@end
 
 @implementation BOCZoomView
 
@@ -49,6 +56,7 @@
     return _imageView;
 }
 
+
 #pragma mark - 生命周期方法
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -83,7 +91,7 @@
     if (self.imageView.image == nil) return;
     
     
-    [UIView animateWithDuration:AnimationTime animations:^{
+    [UIView animateWithDuration:kBOCImageBrowserAnimationTime animations:^{
        
         CGFloat minScale = self.zoomScrollView.minimumZoomScale;
 
@@ -130,6 +138,17 @@
     self.imageView.center = CGPointMake(centerX, centerY);
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    NSLog(@"%@---%@",NSStringFromCGRect(scrollView.bounds),NSStringFromCGRect(self.imageView.frame));
+}
+
+#pragma mark - 外部调用
+- (void)setIsProcessLongPic:(BOOL)process
+{
+    self.isProLongPic = process;
+}
+
 #pragma mark - 执行动画
 // 设置完图片后调用
 - (void)didSetImage
@@ -142,10 +161,9 @@
     self.zoomScrollView.frame = self.bounds;
         
     self.zoomScrollView.contentSize = CGSizeZero;
-        
+
         // 设置 计算放大比例
     if (self.imageView.image == nil) return;
-    
     
     CGSize imageSize = self.imageView.image.size;
         
@@ -160,8 +178,17 @@
     CGFloat imageViewX = 0;
     CGFloat imageViewY = 0;
     
-    if (scaleW >= scaleH) {
-        // 计算缩放比例
+    // 计算图片的位置和尺寸 居屏幕的中心点
+    imageViewW = ScreenWidth > ScreenHeight ? ScreenHeight : ScreenWidth;
+    
+    CGFloat realScreenHeigth = ScreenWidth > ScreenHeight ? ScreenWidth : ScreenHeight;
+    
+    imageViewH = imageViewW / imageSize.width * imageSize.height;
+    
+    BOOL processLP = (imageViewH > realScreenHeigth && self.isProLongPic);
+    
+    if (processLP || scaleW >= scaleH) { // 是长图
+        
         if (scaleW > DefaultMaxScale) {
             self.zoomScrollView.maximumZoomScale = scaleW;
         } else {
@@ -172,9 +199,9 @@
         
         imageViewH = imageViewW / imageSize.width * imageSize.height;
         
-        imageViewY = (ScreenHeight - imageViewH) * 0.5;
-        
-    } else {
+        imageViewY = processLP ? 0 : (ScreenHeight - imageViewH) * 0.5;
+
+    } else { // 正常比例图片
         
         if (scaleH > DefaultMaxScale) {
             self.zoomScrollView.maximumZoomScale = scaleH;
@@ -183,13 +210,16 @@
         }
         // 计算图片的位置和尺寸 居屏幕的中心点
         imageViewH = ScreenHeight;
-        
+
         imageViewW = imageViewH / imageSize.height * imageSize.width;
-        
+
         imageViewX = (ScreenWidth - imageViewW) * 0.5;
+
     }
-        
+
     self.imageScreenRect = CGRectMake(imageViewX, imageViewY, imageViewW, imageViewH);
+
+    self.zoomScrollView.contentSize = CGSizeMake(imageViewW, imageViewH);
     
     self.imageView.frame = self.imageScreenRect;
     
@@ -201,7 +231,7 @@
             self.imageView.alpha = 0.0;
         }
     
-    [UIView animateWithDuration:AnimationTime animations:^{
+    [UIView animateWithDuration:kBOCImageBrowserAnimationTime animations:^{
         
         self.imageView.frame = self.imageScreenRect;
         self.imageView.alpha = 1.0;

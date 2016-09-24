@@ -6,15 +6,12 @@
 //  Copyright © 2016年 liang. All rights reserved.
 //
 
-
-
 #import "BOCImageBrowserViewController.h"
 #import "BOCZoomView.h"
 #import "BOCActivityView.h"
 #import <UIImageView+WebCache.h>
 
-// 滚动时左右两张图片的间距
-static CGFloat ImageMargin = 10;
+
 
 // 判断横竖屏
 #define IsPortrait [UIDevice currentDevice].orientation == UIDeviceOrientationPortrait
@@ -47,7 +44,7 @@ static CGFloat ImageMargin = 10;
 @property (strong, nonatomic) NSArray<NSString *> *datas;
 
 /// 是否加载网络图片
-@property (assign, nonatomic) BOOL isNetwork;
+//@property (assign, nonatomic) BOOL isNetwork;
 
 /// 负责左右滑动的ScrollView
 @property (weak, nonatomic) UIScrollView *scrollView;
@@ -70,15 +67,20 @@ static CGFloat ImageMargin = 10;
 /*-------------------------------- 初始化设置与构造方法  ----------------------------------------*/
 
 #pragma mark - 初始化构造方法
-- (instancetype)initWithDataSource:(NSArray<NSString *> *)datas startIndex:(NSInteger)startIndex isNetwork:(BOOL)isNetwork delegate:( id<BOCImageBrowserViewControllerDelegate>) delegate
++ (instancetype)imageBrowserWithSourceArray:(NSArray<NSString *> *)sourceArr startIndex:(NSInteger)startIndex delegate:(id<BOCImageBrowserViewControllerDelegate>)delegate
+{
+    return [[self alloc] initWithSourceArray:sourceArr startIndex:startIndex delegate:delegate];
+}
+
+- (instancetype)initWithSourceArray:(NSArray<NSString *> *)sourceArr
+                         startIndex:(NSInteger)startIndex
+                           delegate:(id<BOCImageBrowserViewControllerDelegate>)delegate
 {
     self = [super init];
     if (self) {
         [self setup];
         
-        self.isNetwork = isNetwork;
-        
-        self.datas = datas;
+        self.datas = sourceArr;
         
         self.startIndex = startIndex;
         
@@ -94,9 +96,8 @@ static CGFloat ImageMargin = 10;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceOrientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
     
     self.currentOri = UIDeviceOrientationPortrait;
-    self.showPageLabel = YES;
-    self.canStartAnimation = YES;
     self.currentIndex = 0;
+    self.processTheLongPicture = self.showPageLabel = self.canStartAnimation = true;
     
     self.view.backgroundColor = [UIColor clearColor];
     
@@ -114,7 +115,7 @@ static CGFloat ImageMargin = 10;
     
     // 竖屏才加间距
     if (NotLandscape) {
-        width += count * ImageMargin;
+        width += count * kBOCImageBrowserImageMargin;
     }
     self.scrollView.contentSize = CGSizeMake(width, 0);
     
@@ -128,15 +129,20 @@ static CGFloat ImageMargin = 10;
 
 /*-------------------------------- page label 的方法  ----------------------------------------*/
 #pragma mark - page label 的方法
+- (CGSize)labBoundingSize
+{
+    return [self.lab.text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 20, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : self.lab.font} context:nil].size;
+}
+
 - (void)pageLabUpdateFrame {
     
     if (self.showPageLabel == NO) return;
-    
-    CGFloat labW = 100;
+    CGSize size = [self labBoundingSize];
+    CGFloat inset = 10;
+    CGFloat labW = size.width < (100 - inset) ? 100 : size.width + inset;
+    CGFloat labH = size.height < 35 - inset * 0.5 ? 35 : size.height + inset * 0.5;
     
     CGFloat labX = (self.view.bounds.size.width - labW) * 0.5;
-    
-    CGFloat labH = 35;
     
     CGFloat labY = 20;
     
@@ -147,9 +153,9 @@ static CGFloat ImageMargin = 10;
     if (self.showPageLabel == true) {
         NSInteger index = self.scrollView.contentOffset.x / self.scrollView.bounds.size.width + 0.5;
         self.lab.text = [NSString stringWithFormat:@"%ld／%ld",index + 1,self.datas.count];
-        [self.lab sizeToFit];
         
-        [UIView animateWithDuration:AnimationTime animations:^{
+        [UIView animateWithDuration:kBOCImageBrowserAnimationTime animations:^{
+            [self pageLabUpdateFrame];
             self.lab.alpha = 1.0;
         }];
     }
@@ -177,6 +183,19 @@ static CGFloat ImageMargin = 10;
     
     [self pageLabUpdateFrame];
 }
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+}
+
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter]removeObserver:self];
@@ -218,7 +237,7 @@ static CGFloat ImageMargin = 10;
 {
     if (BOCImageBrowserIs_iPad || [self deviceAutorotate]) return;
     
-    [UIView animateWithDuration:AnimationTime animations:^{
+    [UIView animateWithDuration:kBOCImageBrowserAnimationTime animations:^{
         CGAffineTransform rotation;
         switch ([UIDevice currentDevice].orientation) {
             case UIDeviceOrientationLandscapeLeft:
@@ -262,7 +281,7 @@ static CGFloat ImageMargin = 10;
         
         self.view.bounds = [UIScreen mainScreen].bounds;
         CGRect frame = self.view.bounds;
-        frame.size.width += ImageMargin;
+        frame.size.width += kBOCImageBrowserImageMargin;
         self.scrollView.frame = frame;
     } else {
         self.view.bounds = CGRectMake(0.0, 0.0, BOCImageBrowserGetScreenHeight, BOCImageBrowserGetScreenWidth);
@@ -304,7 +323,7 @@ static CGFloat ImageMargin = 10;
     // 如果是竖屏 加间距
     if (toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown ) {
         CGRect frame = self.view.bounds;
-        frame.size.width += ImageMargin;
+        frame.size.width += kBOCImageBrowserImageMargin;
         self.scrollView.frame = frame;
     } else {
         self.scrollView.frame = self.view.bounds;
@@ -398,6 +417,7 @@ static CGFloat ImageMargin = 10;
         //如果没有重用的imageView，就创建
         zoomView = [[BOCZoomView alloc]init];
         zoomView.delegate = self;
+        [zoomView setIsProcessLongPic:self.processTheLongPicture];
     }
     // 添加到scrollView
     [self.scrollView addSubview:zoomView];
@@ -414,14 +434,14 @@ static CGFloat ImageMargin = 10;
     zoomView.frame = CGRectMake(self.scrollView.bounds.size.width * index, 0, zoomViewW, zoomViewH);
     
     // 如果是第一次显示
-    if (self.isBegun == NO) {
-        self.isBegun = YES;
+    if (!self.isBegun) {
+        self.isBegun = true;
         self.currentIndex = index;
         CGPoint offset = zoomView.frame.origin;
         self.scrollView.bounds = (CGRect){offset,self.scrollView.bounds.size};
     }
 
-    if (self.isNetwork == true) {
+    if ([self isNetworkAtIndex:index]) {
         // 使用SDWebImage 加载网络图片
         [BOCActivityView stopAllAnimatingAndRemoveFromView:zoomView];
         
@@ -480,8 +500,8 @@ static CGFloat ImageMargin = 10;
     } else {
         // 加载本地bundle的图片
         NSString *path = [[NSBundle mainBundle]pathForResource:self.datas[index] ofType:nil];
-
-        zoomView.imageView.image = [UIImage imageWithContentsOfFile:path];
+        
+        zoomView.imageView.image = path ? [UIImage imageWithContentsOfFile:path] : [UIImage imageNamed:self.datas[index]];
         
         [zoomView didSetImage];
     }
@@ -512,7 +532,7 @@ static CGFloat ImageMargin = 10;
 }
 
 - (void)showWithAnimationForNewWork {
-    [UIView animateWithDuration:AnimationTime animations:^{
+    [UIView animateWithDuration:kBOCImageBrowserAnimationTime animations:^{
         self.scrollView.hidden = false;
         self.view.backgroundColor = [UIColor blackColor];
     } completion:^(BOOL finished) {
@@ -540,7 +560,7 @@ static CGFloat ImageMargin = 10;
         }
     }
     
-    [UIView animateWithDuration:AnimationTime animations:^{
+    [UIView animateWithDuration:kBOCImageBrowserAnimationTime animations:^{
         
         [self animateWithRotation:CGAffineTransformIdentity isPortrait:YES];
         
@@ -621,7 +641,10 @@ static CGFloat ImageMargin = 10;
     [alertVC addAction:ac];
 }
 
-
+- (BOOL)isNetworkAtIndex:(NSInteger)index
+{
+    return [self.datas[index] containsString:@"http://"];
+}
 
 /*------------------------------------ 懒加载 --------------------------------------*/
 #pragma mark - lazy load
@@ -703,12 +726,23 @@ static CGFloat ImageMargin = 10;
 }
 
 - (CGRect)centerImageFrame {
-    
     CGFloat width = self.view.frame.size.width / 3.0;
     CGFloat height = width;
     CGFloat x = (self.view.frame.size.width - width) * 0.5;
     CGFloat y = (self.view.frame.size.height - height) * 0.5;
     return CGRectMake(x, y, width, height);
+}
+
+
+
+@end
+
+@implementation BOCImageBrowserViewController (ImageBrowserDeprecated)
+
+#pragma mark - Method Deprecated
+- (instancetype)initWithDataSource:(NSArray<NSString *> *)datas startIndex:(NSInteger)startIndex isNetwork:(BOOL)isNetwork delegate:( id<BOCImageBrowserViewControllerDelegate>) delegate
+{
+    return [self initWithSourceArray:datas startIndex:startIndex delegate:delegate];
 }
 
 @end

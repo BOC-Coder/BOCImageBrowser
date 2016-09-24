@@ -19,6 +19,7 @@
 		B4217D3F1D26CE3E00DC2939 /* smallimage.plist in Resources */ = {isa = PBXBuildFile; fileRef = B4217D3D1D26CE3E00DC2939 /* smallimage.plist */; };
 		B4217D421D26CE4A00DC2939 /* images.plist in Resources */ = {isa = PBXBuildFile; fileRef = B4217D411D26CE4A00DC2939 /* images.plist */; };
 		B4217D851D26D37F00DC2939 /* CustomCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = B4217D841D26D37F00DC2939 /* CustomCollectionViewLayout.m */; };
+		B4826BD11D96FAF600642426 /* aaaaaaaa.png in Resources */ = {isa = PBXBuildFile; fileRef = B4826BD01D96FAF600642426 /* aaaaaaaa.png */; };
 		B49EA5811D39E2CE007F2340 /* NaviViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B49EA5801D39E2CE007F2340 /* NaviViewController.m */; };
 		B49EA5871D3A2D1A007F2340 /* BOCImageBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B49EA5841D3A2D1A007F2340 /* BOCImageBrowserViewController.m */; };
 		B49EA5881D3A2D1A007F2340 /* BOCZoomView.m in Sources */ = {isa = PBXBuildFile; fileRef = B49EA5861D3A2D1A007F2340 /* BOCZoomView.m */; };
@@ -50,6 +51,7 @@
 		B4217D411D26CE4A00DC2939 /* images.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = images.plist; sourceTree = "<group>"; };
 		B4217D831D26D37F00DC2939 /* CustomCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCollectionViewLayout.h; sourceTree = "<group>"; };
 		B4217D841D26D37F00DC2939 /* CustomCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCollectionViewLayout.m; sourceTree = "<group>"; };
+		B4826BD01D96FAF600642426 /* aaaaaaaa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aaaaaaaa.png; sourceTree = "<group>"; };
 		B49EA57F1D39E2CE007F2340 /* NaviViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NaviViewController.h; sourceTree = "<group>"; };
 		B49EA5801D39E2CE007F2340 /* NaviViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NaviViewController.m; sourceTree = "<group>"; };
 		B49EA5831D3A2D1A007F2340 /* BOCImageBrowserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BOCImageBrowserViewController.h; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 		B4217D151D26C1E900DC2939 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B4826BD01D96FAF600642426 /* aaaaaaaa.png */,
 				B4217D1E1D26C1E900DC2939 /* Main.storyboard */,
 				B4217D211D26C1E900DC2939 /* Assets.xcassets */,
 				B4217D231D26C1E900DC2939 /* LaunchScreen.storyboard */,
@@ -258,6 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B4217D251D26C1E900DC2939 /* LaunchScreen.storyboard in Resources */,
+				B4826BD11D96FAF600642426 /* aaaaaaaa.png in Resources */,
 				B4217D221D26C1E900DC2939 /* Assets.xcassets in Resources */,
 				B49EA5931D3A2D52007F2340 /* CollectionViewCell.xib in Resources */,
 				B4217D3F1D26CE3E00DC2939 /* smallimage.plist in Resources */,
