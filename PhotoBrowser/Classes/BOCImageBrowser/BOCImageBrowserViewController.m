@@ -11,14 +11,171 @@
 #import "BOCActivityView.h"
 #import <UIImageView+WebCache.h>
 
-
-
 // 判断横竖屏
 #define IsPortrait [UIDevice currentDevice].orientation == UIDeviceOrientationPortrait
 
 #define NotLandscape [UIDevice currentDevice].orientation != UIDeviceOrientationLandscapeLeft && [UIDevice currentDevice].orientation != UIDeviceOrientationLandscapeRight
 
 #define BOCImageBrowserIs_iPad [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad
+
+#define boc_return_value(dict) return dict[self.currentKey];
+
+@interface BOCLanguageManager : NSObject
+
+@property (strong, nonatomic) NSString *currentKey;
+
+@property (strong, nonatomic) NSArray *languageKeys;
+
+#pragma mark - 文字对照方法
+- (NSString *)saveThePhoto;
+- (NSString *)SaveToThePhotoAlbum;
+- (NSString *)cancel;
+- (NSString *)saveFailed;
+- (NSString *)saveFailedPleaseCheck;
+- (NSString *)saveSeccess;
+- (NSString *)savePhotoSeccess;
+- (NSString *)tips;
+- (NSString *)OK;
+@end
+
+static NSString * const BOCLanguageSimplifiedChineseKey = @"zh-Hans-US";
+static NSString * const BOCLanguageTraditionalChineseKey = @"zh-Hant-US";
+static NSString * const BOCLanguageTraditionalChinese_HK_Key = @"zh-HK";
+static NSString * const BOCLanguageEnglishKey = @"en-US";
+
+@implementation BOCLanguageManager
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        NSString *languageKey = [self getPreferredLanguage];
+        for (NSString *key in self.languageKeys) {
+            if ([key isEqualToString:languageKey]) {
+                self.currentKey = key;
+            }
+        }
+        if (!self.currentKey) {
+            self.currentKey = BOCLanguageEnglishKey;
+        }
+    }
+    return self;
+}
+
+- (NSArray *)languageKeys
+{
+    if (_languageKeys == nil) {
+        _languageKeys = @[
+                          BOCLanguageEnglishKey,
+                          BOCLanguageSimplifiedChineseKey,
+                          BOCLanguageTraditionalChinese_HK_Key,
+                          BOCLanguageTraditionalChineseKey
+                          ];
+    }
+    return _languageKeys;
+}
+
+- (NSString *)getPreferredLanguage
+{
+    NSArray * allLanguages = [[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"];
+    return allLanguages.firstObject;
+}
+
+#pragma mark - 文字对照
+- (NSString *)saveThePhoto
+{
+    NSDictionary *dic = @{
+                          BOCLanguageEnglishKey : @"Save the photo",
+                          BOCLanguageSimplifiedChineseKey : @"保存图片",
+                          BOCLanguageTraditionalChinese_HK_Key : @"儲存圖片",
+                          BOCLanguageTraditionalChineseKey : @"保存圖片"
+                                 };
+    boc_return_value(dic)
+}
+
+- (NSString *)SaveToThePhotoAlbum
+{
+    NSDictionary *dic = @{
+                          BOCLanguageEnglishKey : @"Save to the photo album",
+                          BOCLanguageSimplifiedChineseKey : @"保存图片到相册",
+                          BOCLanguageTraditionalChinese_HK_Key : @"儲存圖片至相冊",
+                          BOCLanguageTraditionalChineseKey : @"保存圖片到相冊"
+                          };
+    boc_return_value(dic)
+}
+- (NSString *)cancel
+{
+    NSDictionary *dic = @{
+                          BOCLanguageEnglishKey : @"cancel",
+                          BOCLanguageSimplifiedChineseKey : @"取消",
+                          BOCLanguageTraditionalChinese_HK_Key : @"取消",
+                          BOCLanguageTraditionalChineseKey : @"取消"
+                          };
+    boc_return_value(dic)
+}
+- (NSString *)saveFailed
+{
+    NSDictionary *dic = @{
+                          BOCLanguageEnglishKey : @"Save failed !",
+                          BOCLanguageSimplifiedChineseKey : @"保存失败",
+                          BOCLanguageTraditionalChinese_HK_Key : @"儲存失敗",
+                          BOCLanguageTraditionalChineseKey : @"保存失敗"
+                          };
+    boc_return_value(dic)
+}
+- (NSString *)saveFailedPleaseCheck
+{
+    NSDictionary *dic = @{
+                          BOCLanguageEnglishKey : @"Save the photo failed, please check the Storage Space in you device",
+                          BOCLanguageSimplifiedChineseKey : @"保存图片失败, 请检查您的储存空间",
+                          BOCLanguageTraditionalChinese_HK_Key : @"儲存圖片失敗,請檢查設備的儲存空間",
+                          BOCLanguageTraditionalChineseKey : @"保存圖片失敗,請檢查你的儲存空間"
+                          };
+    boc_return_value(dic)
+}
+- (NSString *)saveSeccess
+{
+    NSDictionary *dic = @{
+                          BOCLanguageEnglishKey : @"Save seccess",
+                          BOCLanguageSimplifiedChineseKey : @"保存成功",
+                          BOCLanguageTraditionalChinese_HK_Key : @"儲存成功",
+                          BOCLanguageTraditionalChineseKey : @"保存成功"
+                          };
+    boc_return_value(dic)
+}
+
+- (NSString *)savePhotoSeccess
+{
+    NSDictionary *dic = @{
+                          BOCLanguageEnglishKey : @"Save photo seccess",
+                          BOCLanguageSimplifiedChineseKey : @"保存图片成功",
+                          BOCLanguageTraditionalChinese_HK_Key : @"儲存圖片成功",
+                          BOCLanguageTraditionalChineseKey : @"保存圖片成功"
+                          };
+    boc_return_value(dic)
+}
+- (NSString *)tips
+{
+    NSDictionary *dic = @{
+                          BOCLanguageEnglishKey : @"tips",
+                          BOCLanguageSimplifiedChineseKey : @"提示",
+                          BOCLanguageTraditionalChinese_HK_Key : @"提示",
+                          BOCLanguageTraditionalChineseKey : @"提示"
+                          };
+    boc_return_value(dic)
+}
+- (NSString *)OK
+{
+    NSDictionary *dic = @{
+                          BOCLanguageEnglishKey : @"OK",
+                          BOCLanguageSimplifiedChineseKey : @"确认",
+                          BOCLanguageTraditionalChinese_HK_Key : @"確定",
+                          BOCLanguageTraditionalChineseKey : @"確認"
+                          };
+    boc_return_value(dic)
+}
+
+@end
 
 @interface BOCImageBrowserViewController ()<UIScrollViewDelegate, BOCZoomViewDelegate>
 
@@ -43,9 +200,6 @@
 /// 保存图片展示所需要的数据
 @property (strong, nonatomic) NSArray<NSString *> *datas;
 
-/// 是否加载网络图片
-//@property (assign, nonatomic) BOOL isNetwork;
-
 /// 负责左右滑动的ScrollView
 @property (weak, nonatomic) UIScrollView *scrollView;
 
@@ -55,6 +209,11 @@
 /// 保存当前的屏幕方向
 @property (assign, nonatomic) UIDeviceOrientation currentOri;
 
+/**
+ *  语言管理
+ */
+@property (strong, nonatomic) BOCLanguageManager *languageMan;
+
 @end
 
 @implementation BOCImageBrowserViewController
@@ -63,7 +222,6 @@
 {
     return YES;
 }
-
 /*-------------------------------- 初始化设置与构造方法  ----------------------------------------*/
 
 #pragma mark - 初始化构造方法
@@ -596,17 +754,17 @@
             [self.delegate imageBrowser:self image:zoomView.imageView.image didLongPress:longPress];
             return;
         }
-
-        // 如果代理没有实现这个方法，就执行保存图片
-        UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"保存图片" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
-        UIAlertAction *ac = [UIAlertAction actionWithTitle:@"保存图片到相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        // 如果代理没有实现这个方法，就执行保存图片
+        UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:[self.languageMan saveThePhoto] message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        
+        UIAlertAction *ac = [UIAlertAction actionWithTitle:[self.languageMan SaveToThePhotoAlbum] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             
             UIImageWriteToSavedPhotosAlbum(zoomView.imageView.image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
             
         }];
         
-        UIAlertAction *cancelAC= [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        UIAlertAction *cancelAC= [UIAlertAction actionWithTitle:[self.languageMan cancel] style:UIAlertActionStyleCancel handler:nil];
 
         [alertVC addAction:ac];
         [alertVC addAction:cancelAC];
@@ -623,22 +781,23 @@
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
 {
     if (error) {
-        NSLog(@"保存失败");
-        [self showMessage:@"保存图片失败,请检查设备的储存空间"];
+        NSLog(@"%@",[self.languageMan saveFailed]);
+        [self showMessage:[self.languageMan saveFailedPleaseCheck]];
     } else {
-        NSLog(@"保存成功");
-        [self showMessage:@"保存图片成功"];
+        NSLog(@"%@",[self.languageMan saveSeccess]);
+        [self showMessage:[self.languageMan savePhotoSeccess]];
     }
 }
 
 - (void)showMessage:(NSString *)message
 {
     // 如果代理没有实现这个方法，就执行保存图片
-    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"提示" message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:[self.languageMan tips] message:message preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction *ac= [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:nil];
+    UIAlertAction *ac= [UIAlertAction actionWithTitle:[self.languageMan OK] style:UIAlertActionStyleDefault handler:nil];
     
     [alertVC addAction:ac];
+    [self presentViewController:alertVC animated:YES completion:nil];
 }
 
 - (BOOL)isNetworkAtIndex:(NSInteger)index
@@ -733,7 +892,13 @@
     return CGRectMake(x, y, width, height);
 }
 
-
+- (BOCLanguageManager *)languageMan
+{
+    if (_languageMan == nil) {
+        _languageMan = [BOCLanguageManager new];
+    }
+    return _languageMan;
+}
 
 @end
 

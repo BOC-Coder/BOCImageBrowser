@@ -36,10 +36,10 @@ static double kBOCImageBrowserAnimationTime = 0.3;
  *
  *  ******  如果没有实现这个方法，默认就是弹出ActionSheet提示保存图片到相册  *******
  *
- *  @param iamge        当前显示在浏览器上的图片
+ *  @param image        当前显示在浏览器上的图片
  *  @param longPress    长按的UILongPressGestureRecognizer对象
  */
-- (void)imageBrowser:(BOCImageBrowserViewController *)imageBrowser image:(UIImage *)iamge didLongPress:(UILongPressGestureRecognizer *)longPress;
+- (void)imageBrowser:(BOCImageBrowserViewController *)imageBrowser image:(UIImage *)image didLongPress:(UILongPressGestureRecognizer *)longPress;
 
 @end
 
