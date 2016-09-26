@@ -35,6 +35,8 @@ static CGFloat DefaultMaxScale = 1.5;
 
 @property (assign, nonatomic) CGRect imageScreenRect;
 
+@property (assign, nonatomic) CGFloat duration;
+
 - (void)didSetImage;
 - (void)imageStartAnimationWithInitFrame:(CGRect)initFrame;
 - (void)imageEndAnimationWithFrame:(CGRect)frame;

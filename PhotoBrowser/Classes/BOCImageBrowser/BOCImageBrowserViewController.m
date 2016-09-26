@@ -7,9 +7,9 @@
 //
 
 #import "BOCImageBrowserViewController.h"
-#import "BOCZoomView.h"
 #import "BOCActivityView.h"
 #import <UIImageView+WebCache.h>
+#import "BOCLanguageManager.h"
 
 // 判断横竖屏
 #define IsPortrait [UIDevice currentDevice].orientation == UIDeviceOrientationPortrait
@@ -18,166 +18,7 @@
 
 #define BOCImageBrowserIs_iPad [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad
 
-#define boc_return_value(dict) return dict[self.currentKey];
-
-@interface BOCLanguageManager : NSObject
-
-@property (strong, nonatomic) NSString *currentKey;
-
-@property (strong, nonatomic) NSArray *languageKeys;
-
-#pragma mark - 文字对照方法
-- (NSString *)saveThePhoto;
-- (NSString *)SaveToThePhotoAlbum;
-- (NSString *)cancel;
-- (NSString *)saveFailed;
-- (NSString *)saveFailedPleaseCheck;
-- (NSString *)saveSeccess;
-- (NSString *)savePhotoSeccess;
-- (NSString *)tips;
-- (NSString *)OK;
-@end
-
-static NSString * const BOCLanguageSimplifiedChineseKey = @"zh-Hans-US";
-static NSString * const BOCLanguageTraditionalChineseKey = @"zh-Hant-US";
-static NSString * const BOCLanguageTraditionalChinese_HK_Key = @"zh-HK";
-static NSString * const BOCLanguageEnglishKey = @"en-US";
-
-@implementation BOCLanguageManager
-
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        NSString *languageKey = [self getPreferredLanguage];
-        for (NSString *key in self.languageKeys) {
-            if ([key isEqualToString:languageKey]) {
-                self.currentKey = key;
-            }
-        }
-        if (!self.currentKey) {
-            self.currentKey = BOCLanguageEnglishKey;
-        }
-    }
-    return self;
-}
-
-- (NSArray *)languageKeys
-{
-    if (_languageKeys == nil) {
-        _languageKeys = @[
-                          BOCLanguageEnglishKey,
-                          BOCLanguageSimplifiedChineseKey,
-                          BOCLanguageTraditionalChinese_HK_Key,
-                          BOCLanguageTraditionalChineseKey
-                          ];
-    }
-    return _languageKeys;
-}
-
-- (NSString *)getPreferredLanguage
-{
-    NSArray * allLanguages = [[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"];
-    return allLanguages.firstObject;
-}
-
-#pragma mark - 文字对照
-- (NSString *)saveThePhoto
-{
-    NSDictionary *dic = @{
-                          BOCLanguageEnglishKey : @"Save the photo",
-                          BOCLanguageSimplifiedChineseKey : @"保存图片",
-                          BOCLanguageTraditionalChinese_HK_Key : @"儲存圖片",
-                          BOCLanguageTraditionalChineseKey : @"保存圖片"
-                                 };
-    boc_return_value(dic)
-}
-
-- (NSString *)SaveToThePhotoAlbum
-{
-    NSDictionary *dic = @{
-                          BOCLanguageEnglishKey : @"Save to the photo album",
-                          BOCLanguageSimplifiedChineseKey : @"保存图片到相册",
-                          BOCLanguageTraditionalChinese_HK_Key : @"儲存圖片至相冊",
-                          BOCLanguageTraditionalChineseKey : @"保存圖片到相冊"
-                          };
-    boc_return_value(dic)
-}
-- (NSString *)cancel
-{
-    NSDictionary *dic = @{
-                          BOCLanguageEnglishKey : @"cancel",
-                          BOCLanguageSimplifiedChineseKey : @"取消",
-                          BOCLanguageTraditionalChinese_HK_Key : @"取消",
-                          BOCLanguageTraditionalChineseKey : @"取消"
-                          };
-    boc_return_value(dic)
-}
-- (NSString *)saveFailed
-{
-    NSDictionary *dic = @{
-                          BOCLanguageEnglishKey : @"Save failed !",
-                          BOCLanguageSimplifiedChineseKey : @"保存失败",
-                          BOCLanguageTraditionalChinese_HK_Key : @"儲存失敗",
-                          BOCLanguageTraditionalChineseKey : @"保存失敗"
-                          };
-    boc_return_value(dic)
-}
-- (NSString *)saveFailedPleaseCheck
-{
-    NSDictionary *dic = @{
-                          BOCLanguageEnglishKey : @"Save the photo failed, please check the Storage Space in you device",
-                          BOCLanguageSimplifiedChineseKey : @"保存图片失败, 请检查您的储存空间",
-                          BOCLanguageTraditionalChinese_HK_Key : @"儲存圖片失敗,請檢查設備的儲存空間",
-                          BOCLanguageTraditionalChineseKey : @"保存圖片失敗,請檢查你的儲存空間"
-                          };
-    boc_return_value(dic)
-}
-- (NSString *)saveSeccess
-{
-    NSDictionary *dic = @{
-                          BOCLanguageEnglishKey : @"Save seccess",
-                          BOCLanguageSimplifiedChineseKey : @"保存成功",
-                          BOCLanguageTraditionalChinese_HK_Key : @"儲存成功",
-                          BOCLanguageTraditionalChineseKey : @"保存成功"
-                          };
-    boc_return_value(dic)
-}
-
-- (NSString *)savePhotoSeccess
-{
-    NSDictionary *dic = @{
-                          BOCLanguageEnglishKey : @"Save photo seccess",
-                          BOCLanguageSimplifiedChineseKey : @"保存图片成功",
-                          BOCLanguageTraditionalChinese_HK_Key : @"儲存圖片成功",
-                          BOCLanguageTraditionalChineseKey : @"保存圖片成功"
-                          };
-    boc_return_value(dic)
-}
-- (NSString *)tips
-{
-    NSDictionary *dic = @{
-                          BOCLanguageEnglishKey : @"tips",
-                          BOCLanguageSimplifiedChineseKey : @"提示",
-                          BOCLanguageTraditionalChinese_HK_Key : @"提示",
-                          BOCLanguageTraditionalChineseKey : @"提示"
-                          };
-    boc_return_value(dic)
-}
-- (NSString *)OK
-{
-    NSDictionary *dic = @{
-                          BOCLanguageEnglishKey : @"OK",
-                          BOCLanguageSimplifiedChineseKey : @"确认",
-                          BOCLanguageTraditionalChinese_HK_Key : @"確定",
-                          BOCLanguageTraditionalChineseKey : @"確認"
-                          };
-    boc_return_value(dic)
-}
-
-@end
-
-@interface BOCImageBrowserViewController ()<UIScrollViewDelegate, BOCZoomViewDelegate>
+@interface BOCImageBrowserViewController ()
 
 /// 是否可以执行start动画 default is YES
 @property (assign, nonatomic) BOOL canStartAnimation;
@@ -250,31 +91,32 @@ static NSString * const BOCLanguageEnglishKey = @"en-US";
     return self;
 }
 
-- (void) setup {
+- (void)setup {
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceOrientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
     
+    self.animationDuration = 0.3f;
+    self.imageHorizontalSpacing = 10.f;
     self.currentOri = UIDeviceOrientationPortrait;
     self.currentIndex = 0;
     self.processTheLongPicture = self.showPageLabel = self.canStartAnimation = true;
     
     self.view.backgroundColor = [UIColor clearColor];
-    
     self.modalPresentationStyle = UIModalPresentationOverFullScreen;
     self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
 }
 
 - (void)setupScrollView {
     // 设置scrollView的contentSize 位置和尺寸
-    if (self.datas == nil) return;
-    
     NSInteger count = self.datas.count;
+
+    if (!count) return;
     
     CGFloat width = self.view.frame.size.width * count;
     
     // 竖屏才加间距
-    if (NotLandscape) {
-        width += count * kBOCImageBrowserImageMargin;
-    }
+//    if (NotLandscape) {
+    width += count * self.imageHorizontalSpacing;
+//    }
     self.scrollView.contentSize = CGSizeMake(width, 0);
     
     self.scrollView.frame = (CGRect){CGPointZero, CGSizeMake(width / count, self.view.frame.size.height)};
@@ -282,8 +124,6 @@ static NSString * const BOCLanguageEnglishKey = @"en-US";
     // 展示图片
     [self showImageViewAtIndex:self.startIndex];
 }
-
-
 
 /*-------------------------------- page label 的方法  ----------------------------------------*/
 #pragma mark - page label 的方法
@@ -295,28 +135,32 @@ static NSString * const BOCLanguageEnglishKey = @"en-US";
 - (void)pageLabUpdateFrame {
     
     if (self.showPageLabel == NO) return;
+    
     CGSize size = [self labBoundingSize];
     CGFloat inset = 10;
+    
     CGFloat labW = size.width < (100 - inset) ? 100 : size.width + inset;
     CGFloat labH = size.height < 35 - inset * 0.5 ? 35 : size.height + inset * 0.5;
     
     CGFloat labX = (self.view.bounds.size.width - labW) * 0.5;
-    
     CGFloat labY = 20;
     
     self.lab.frame = CGRectMake(labX, labY, labW, labH);
 }
 
 - (void)updatePageLabel {
-    if (self.showPageLabel == true) {
-        NSInteger index = self.scrollView.contentOffset.x / self.scrollView.bounds.size.width + 0.5;
-        self.lab.text = [NSString stringWithFormat:@"%ld／%ld",index + 1,self.datas.count];
-        
-        [UIView animateWithDuration:kBOCImageBrowserAnimationTime animations:^{
-            [self pageLabUpdateFrame];
-            self.lab.alpha = 1.0;
-        }];
-    }
+    
+    NSInteger index = self.scrollView.contentOffset.x / self.scrollView.bounds.size.width + 0.5;
+    [self pageDidChange:index + 1 totalPage:self.datas.count];
+    
+    if (!self.showPageLabel) return;
+    
+    self.lab.text = [NSString stringWithFormat:@"%ld／%ld",index + 1,self.datas.count];
+    
+    [UIView animateWithDuration:self.animationDuration animations:^{
+        [self pageLabUpdateFrame];
+        self.lab.alpha = 1.0;
+    }];
 }
 
 /*-------------------------------------  生命周期方法 ------------------------------------------*/
@@ -324,15 +168,11 @@ static NSString * const BOCLanguageEnglishKey = @"en-US";
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    
-    
-    if (self.canStartAnimation) {
+
+    if (self.canStartAnimation)
         [self showWithAnimation];
-    }
-    else {
+    else
         [self showWithAnimationForNewWork];
-    }
 }
 
 - (void)viewWillLayoutSubviews
@@ -353,7 +193,6 @@ static NSString * const BOCLanguageEnglishKey = @"en-US";
     [super viewWillDisappear:animated];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
-
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter]removeObserver:self];
@@ -387,15 +226,14 @@ static NSString * const BOCLanguageEnglishKey = @"en-US";
 }
 
 - (BOOL)deviceAutorotate {
-    return ([self deviceSupportOrientations] == UIInterfaceOrientationMaskPortrait) ?
-    NO : YES;
+    return !([self deviceSupportOrientations] == UIInterfaceOrientationMaskPortrait);
 }
 
 - (void)deviceOrientationDidChange:(NSNotification *)note
 {
     if (BOCImageBrowserIs_iPad || [self deviceAutorotate]) return;
     
-    [UIView animateWithDuration:kBOCImageBrowserAnimationTime animations:^{
+    [UIView animateWithDuration:self.animationDuration animations:^{
         CGAffineTransform rotation;
         switch ([UIDevice currentDevice].orientation) {
             case UIDeviceOrientationLandscapeLeft:
@@ -435,18 +273,17 @@ static NSString * const BOCLanguageEnglishKey = @"en-US";
     self.view.transform = rotation;
     
     // 如果是竖屏 加间距
-    if (isPortrait) {
-        
+    if (isPortrait)
         self.view.bounds = [UIScreen mainScreen].bounds;
-        CGRect frame = self.view.bounds;
-        frame.size.width += kBOCImageBrowserImageMargin;
-        self.scrollView.frame = frame;
-    } else {
+     else
         self.view.bounds = CGRectMake(0.0, 0.0, BOCImageBrowserGetScreenHeight, BOCImageBrowserGetScreenWidth);
-        
-        self.scrollView.frame = self.view.bounds;
-    }
 
+    CGRect frame = self.view.bounds;
+    frame.size.width += self.imageHorizontalSpacing;
+    self.scrollView.frame = frame;
+    
+    [self orientationChangeWithRect:self.view.bounds];
+    
     CGFloat width = self.scrollView.frame.size.width;
     
     // 更新frame
@@ -468,7 +305,7 @@ static NSString * const BOCLanguageEnglishKey = @"en-US";
 {
     if (![self deviceAutorotate]) return;
     
-    if (self.datas == nil) return;
+    if (!self.datas.count) return;
     
     BOCZoomView *currentZoomView = self.currentZoomView;
     
@@ -479,15 +316,16 @@ static NSString * const BOCLanguageEnglishKey = @"en-US";
     self.scrollView.delegate = nil;
     
     // 如果是竖屏 加间距
-    if (toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown ) {
-        CGRect frame = self.view.bounds;
-        frame.size.width += kBOCImageBrowserImageMargin;
-        self.scrollView.frame = frame;
-    } else {
-        self.scrollView.frame = self.view.bounds;
-    }
+//    if (toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown ) {
+    CGRect frame = self.view.bounds;
+    frame.size.width += self.imageHorizontalSpacing;
+    self.scrollView.frame = frame;
+//    } else {
+//        self.scrollView.frame = self.view.bounds;
+//    }
+    [self orientationChangeWithRect:self.view.bounds];
     
-    CGFloat width = self.scrollView.frame.size.width;
+    CGFloat width = frame.size.width;
     
     // 更新frame
     for (BOCZoomView *zoomView in self.visibleViews) {
@@ -575,6 +413,7 @@ static NSString * const BOCLanguageEnglishKey = @"en-US";
         //如果没有重用的imageView，就创建
         zoomView = [[BOCZoomView alloc]init];
         zoomView.delegate = self;
+        zoomView.duration = self.animationDuration;
         [zoomView setIsProcessLongPic:self.processTheLongPicture];
     }
     // 添加到scrollView
@@ -638,8 +477,7 @@ static NSString * const BOCLanguageEnglishKey = @"en-US";
                 
                 if (!image) {
                     // 如果有占位图片就设置占位图片
-                    // zoomView?.imageView.image =
-                    
+                    if (self.placeholderImage) zoomView.imageView.image = self.placeholderImage;
                     // 缩放比例为1.0
                     zoomView.zoomScrollView.maximumZoomScale = 1.0;
                     return;
@@ -681,30 +519,25 @@ static NSString * const BOCLanguageEnglishKey = @"en-US";
             initFrame = [imgView convertRect:imgView.bounds toView: nil];
             zoomView.imageView.frame = initFrame;
         }
-
     }
-
     [zoomView imageStartAnimationWithInitFrame:initFrame];
     
     [self showWithAnimationForNewWork];
 }
 
 - (void)showWithAnimationForNewWork {
-    [UIView animateWithDuration:kBOCImageBrowserAnimationTime animations:^{
+    [UIView animateWithDuration:self.animationDuration animations:^{
         self.scrollView.hidden = false;
         self.view.backgroundColor = [UIColor blackColor];
     } completion:^(BOOL finished) {
         [self updatePageLabel];
         self.view.superview.backgroundColor = [UIColor blackColor];
-        
         [self deviceOrientationDidChange:nil];
-        
     }];
-    
 }
 
 - (void)hideWithAnimation {
-        // 判断代理是否相应
+    // 判断代理是否相应
     self.view.superview.backgroundColor = [UIColor clearColor];
     
     CGRect deinitFrame = CGRectZero;
@@ -718,7 +551,7 @@ static NSString * const BOCLanguageEnglishKey = @"en-US";
         }
     }
     
-    [UIView animateWithDuration:kBOCImageBrowserAnimationTime animations:^{
+    [UIView animateWithDuration:self.animationDuration animations:^{
         
         [self animateWithRotation:CGAffineTransformIdentity isPortrait:YES];
         
@@ -729,11 +562,8 @@ static NSString * const BOCLanguageEnglishKey = @"en-US";
         [currentZoomView imageEndAnimationWithFrame:deinitFrame];
         
     } completion:^(BOOL finished) {
-        
         [self dismissViewControllerAnimated:YES completion:nil];
-        
     }];
-        
 }
 
 /*---------------------------------- 实现代理的方法 ----------------------------------------*/
@@ -748,34 +578,22 @@ static NSString * const BOCLanguageEnglishKey = @"en-US";
 #pragma mark - BOCZoomViewDelegate
 - (void)zoomView:(BOCZoomView *)zoomView didLongPress:(UILongPressGestureRecognizer *)longPress
 {
-    if (longPress.state == UIGestureRecognizerStateBegan) {
+    if (longPress.state != UIGestureRecognizerStateBegan) return;
         
-        if ([self.delegate respondsToSelector:@selector(imageBrowser:image:didLongPress:)]) {
-            [self.delegate imageBrowser:self image:zoomView.imageView.image didLongPress:longPress];
-            return;
-        }
-        
-        // 如果代理没有实现这个方法，就执行保存图片
-        UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:[self.languageMan saveThePhoto] message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-        
-        UIAlertAction *ac = [UIAlertAction actionWithTitle:[self.languageMan SaveToThePhotoAlbum] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            
-            UIImageWriteToSavedPhotosAlbum(zoomView.imageView.image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
-            
-        }];
-        
-        UIAlertAction *cancelAC= [UIAlertAction actionWithTitle:[self.languageMan cancel] style:UIAlertActionStyleCancel handler:nil];
-
-        [alertVC addAction:ac];
-        [alertVC addAction:cancelAC];
-        
-        [self presentViewController:alertVC animated:YES completion:nil];
+    if ([self.delegate respondsToSelector:@selector(imageBrowser:image:didLongPress:)]) {
+        [self.delegate imageBrowser:self image:zoomView.imageView.image didLongPress:longPress];
+        return;
     }
+    [self imageViewDidLongPress:zoomView.imageView];
 }
 
 - (void)zoomView:(BOCZoomView *)zoomView didOneTap:(UITapGestureRecognizer *)tap
 {
-    [self hideWithAnimation];
+    if ([self.delegate respondsToSelector:@selector(imageBrowser:image:didTap:)]) {
+        [self.delegate imageBrowser:self image:zoomView.imageView.image didTap:tap];
+        return;
+    }
+    [self imageViewDidTap:zoomView.imageView];
 }
 
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
@@ -884,6 +702,11 @@ static NSString * const BOCLanguageEnglishKey = @"en-US";
     return nil;
 }
 
+- (BOCLanguageManager *)languageManager
+{
+    return self.languageMan;
+}
+
 - (CGRect)centerImageFrame {
     CGFloat width = self.view.frame.size.width / 3.0;
     CGFloat height = width;
@@ -900,8 +723,43 @@ static NSString * const BOCLanguageEnglishKey = @"en-US";
     return _languageMan;
 }
 
+#pragma mark - Over ride 交给子类重写
+- (void)pageDidChange:(NSInteger)pageNumber totalPage:(NSInteger)totalPage
+{
+    
+}
+
+- (void)imageViewDidLongPress:(UIImageView *)imageView
+{
+    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:[self.languageMan saveThePhoto] message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *ac = [UIAlertAction actionWithTitle:[self.languageMan SaveToThePhotoAlbum] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIImageWriteToSavedPhotosAlbum(imageView.image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+    }];
+    UIAlertAction *cancelAC= [UIAlertAction actionWithTitle:[self.languageMan cancel] style:UIAlertActionStyleCancel handler:nil];
+    [alertVC addAction:ac];
+    [alertVC addAction:cancelAC];
+    [self presentViewController:alertVC animated:YES completion:nil];
+}
+
+- (void)imageViewDidTap:(UIImageView *)imageView
+{
+    [self hideWithAnimation];
+}
+
+- (void)orientationChangeWithRect:(CGRect)rect
+{
+    
+}
+
+- (void)dismissAnimation
+{
+    [self hideWithAnimation];
+}
 @end
 
+/**
+ 过期的方法分类
+ */
 @implementation BOCImageBrowserViewController (ImageBrowserDeprecated)
 
 #pragma mark - Method Deprecated

@@ -37,6 +37,7 @@
         _datas = [NSArray arrayWithContentsOfFile:path];
         NSMutableArray *arrM = [NSMutableArray arrayWithArray:_datas];
         [arrM insertObject:@"aaaaaaaa" atIndex:0];
+        [arrM insertObject:@"aaaaaaaa" atIndex:0];
         _datas = [NSArray arrayWithArray:arrM];
     }
     return _datas;
@@ -85,12 +86,17 @@ static NSString * const reuseIdentifier = @"CollectionViewCell";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     // 点击cell的时候 弹出图片浏览器
-    BOCImageBrowserViewController *vc =
-    [[BOCImageBrowserViewController alloc]initWithDataSource:self.datas
-                                                  startIndex:indexPath.item
-                                                   isNetwork:YES
-                                                    delegate:self];
+//    BOCImageBrowserViewController *vc =
+//    [[BOCImageBrowserViewController alloc]initWithDataSource:self.datas
+//                                                  startIndex:indexPath.item
+//                                                   isNetwork:YES
+//                                                    delegate:self];
     
+    BOCImageBrowserViewController *vc =
+    [[BOCImageBrowserViewController alloc] initWithSourceArray:self.datas
+                                                    startIndex:indexPath.item
+                                                      delegate:self];
+
     [self presentViewController:vc animated:YES completion:nil];
 }
 

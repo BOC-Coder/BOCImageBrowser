@@ -20,6 +20,8 @@
 		B4217D421D26CE4A00DC2939 /* images.plist in Resources */ = {isa = PBXBuildFile; fileRef = B4217D411D26CE4A00DC2939 /* images.plist */; };
 		B4217D851D26D37F00DC2939 /* CustomCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = B4217D841D26D37F00DC2939 /* CustomCollectionViewLayout.m */; };
 		B4826BD11D96FAF600642426 /* aaaaaaaa.png in Resources */ = {isa = PBXBuildFile; fileRef = B4826BD01D96FAF600642426 /* aaaaaaaa.png */; };
+		B4826BD41D98C30600642426 /* BOCToolbarImageBroswerController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4826BD31D98C30600642426 /* BOCToolbarImageBroswerController.m */; };
+		B4826BD71D98C36C00642426 /* BOCLanguageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B4826BD61D98C36C00642426 /* BOCLanguageManager.m */; };
 		B49EA5811D39E2CE007F2340 /* NaviViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B49EA5801D39E2CE007F2340 /* NaviViewController.m */; };
 		B49EA5871D3A2D1A007F2340 /* BOCImageBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B49EA5841D3A2D1A007F2340 /* BOCImageBrowserViewController.m */; };
 		B49EA5881D3A2D1A007F2340 /* BOCZoomView.m in Sources */ = {isa = PBXBuildFile; fileRef = B49EA5861D3A2D1A007F2340 /* BOCZoomView.m */; };
@@ -52,6 +54,10 @@
 		B4217D831D26D37F00DC2939 /* CustomCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCollectionViewLayout.h; sourceTree = "<group>"; };
 		B4217D841D26D37F00DC2939 /* CustomCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCollectionViewLayout.m; sourceTree = "<group>"; };
 		B4826BD01D96FAF600642426 /* aaaaaaaa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aaaaaaaa.png; sourceTree = "<group>"; };
+		B4826BD21D98C30600642426 /* BOCToolbarImageBroswerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BOCToolbarImageBroswerController.h; sourceTree = "<group>"; };
+		B4826BD31D98C30600642426 /* BOCToolbarImageBroswerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BOCToolbarImageBroswerController.m; sourceTree = "<group>"; };
+		B4826BD51D98C36C00642426 /* BOCLanguageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BOCLanguageManager.h; sourceTree = "<group>"; };
+		B4826BD61D98C36C00642426 /* BOCLanguageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BOCLanguageManager.m; sourceTree = "<group>"; };
 		B49EA57F1D39E2CE007F2340 /* NaviViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NaviViewController.h; sourceTree = "<group>"; };
 		B49EA5801D39E2CE007F2340 /* NaviViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NaviViewController.m; sourceTree = "<group>"; };
 		B49EA5831D3A2D1A007F2340 /* BOCImageBrowserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BOCImageBrowserViewController.h; sourceTree = "<group>"; };
@@ -167,6 +173,10 @@
 				B49EA5861D3A2D1A007F2340 /* BOCZoomView.m */,
 				B4B9128F1D3A708700498445 /* BOCActivityView.h */,
 				B4B912901D3A708700498445 /* BOCActivityView.m */,
+				B4826BD21D98C30600642426 /* BOCToolbarImageBroswerController.h */,
+				B4826BD31D98C30600642426 /* BOCToolbarImageBroswerController.m */,
+				B4826BD51D98C36C00642426 /* BOCLanguageManager.h */,
+				B4826BD61D98C36C00642426 /* BOCLanguageManager.m */,
 			);
 			path = BOCImageBrowser;
 			sourceTree = "<group>";
@@ -334,6 +344,8 @@
 				B4217D381D26C72100DC2939 /* TableViewController.m in Sources */,
 				B4217D171D26C1E900DC2939 /* main.m in Sources */,
 				B4B912911D3A708700498445 /* BOCActivityView.m in Sources */,
+				B4826BD41D98C30600642426 /* BOCToolbarImageBroswerController.m in Sources */,
+				B4826BD71D98C36C00642426 /* BOCLanguageManager.m in Sources */,
 				B4217D851D26D37F00DC2939 /* CustomCollectionViewLayout.m in Sources */,
 				B49EA5921D3A2D52007F2340 /* CollectionViewCell.m in Sources */,
 				B49EA5881D3A2D1A007F2340 /* BOCZoomView.m in Sources */,

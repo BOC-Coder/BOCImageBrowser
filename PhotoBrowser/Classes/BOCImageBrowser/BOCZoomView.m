@@ -91,7 +91,7 @@
     if (self.imageView.image == nil) return;
     
     
-    [UIView animateWithDuration:kBOCImageBrowserAnimationTime animations:^{
+    [UIView animateWithDuration:self.duration animations:^{
        
         CGFloat minScale = self.zoomScrollView.minimumZoomScale;
 
@@ -138,10 +138,10 @@
     self.imageView.center = CGPointMake(centerX, centerY);
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    NSLog(@"%@---%@",NSStringFromCGRect(scrollView.bounds),NSStringFromCGRect(self.imageView.frame));
-}
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+//{
+//    NSLog(@"%@---%@",NSStringFromCGRect(scrollView.bounds),NSStringFromCGRect(self.imageView.frame));
+//}
 
 #pragma mark - 外部调用
 - (void)setIsProcessLongPic:(BOOL)process
@@ -231,7 +231,7 @@
             self.imageView.alpha = 0.0;
         }
     
-    [UIView animateWithDuration:kBOCImageBrowserAnimationTime animations:^{
+    [UIView animateWithDuration:self.duration animations:^{
         
         self.imageView.frame = self.imageScreenRect;
         self.imageView.alpha = 1.0;

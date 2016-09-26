@@ -7,12 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BOCZoomView.h"
 
-// 滚动时左右两张图片的间距
-static CGFloat const kBOCImageBrowserImageMargin = 10;
-
-static double kBOCImageBrowserAnimationTime = 0.3;
-
+@class BOCLanguageManager;
 @class BOCImageBrowserViewController;
 
 @protocol BOCImageBrowserViewControllerDelegate <NSObject>
@@ -41,9 +38,19 @@ static double kBOCImageBrowserAnimationTime = 0.3;
  */
 - (void)imageBrowser:(BOCImageBrowserViewController *)imageBrowser image:(UIImage *)image didLongPress:(UILongPressGestureRecognizer *)longPress;
 
+/**
+ *  当图片被单击时回调这个方法
+ *
+ *  @param image        当前显示在浏览器上的图片
+ *  @param tap          图片中的UITapGestureRecognizer对象
+ */
+- (void)imageBrowser:(BOCImageBrowserViewController *)imageBrowser image:(UIImage *)image didTap:(UITapGestureRecognizer *)tap;
+
+
 @end
 
-@interface BOCImageBrowserViewController : UIViewController
+
+@interface BOCImageBrowserViewController : UIViewController<UIScrollViewDelegate, BOCZoomViewDelegate>
 
 /**
  *  是否处理 超长图片, default is YES;
@@ -56,18 +63,37 @@ static double kBOCImageBrowserAnimationTime = 0.3;
 @property (assign, nonatomic) BOOL showPageLabel;
 
 /**
- *  执行动画需要设置代理
+ *  设置滚动时左右两张图片的水平间距 , default is 10.f;
  */
+@property (assign, nonatomic) CGFloat imageHorizontalSpacing;
+
+/**
+ *  动画时间,default is 0.3f;
+ */
+@property (assign, nonatomic) CGFloat animationDuration;
+
+/**
+ *  加载图片失败时的占位图片
+ */
+@property (strong, nonatomic) UIImage *placeholderImage;
+
+/**
+ *  语言管理者
+ */
+@property (readonly, nonatomic) BOCLanguageManager *languageManager;
+
+
 @property (weak, nonatomic) id<BOCImageBrowserViewControllerDelegate> delegate;
 
 /**
  *  便利构造函数，创建图片浏览器
  *
- *  @param datas      需要加载的图片
+ *  @param datas      需要加载的图片 (URL 或 imageName)
+ *  *************** 自动判断图片的名称是否网络路径 *****************
+ *
  *  @param startIndex 从哪一张开始显示
  *  @param delegate   成为代理的对象
  *
- *  自动判断图片的名称是否网络路径
  *
  *  @return BOCImageBrowserViewController对象
  */
@@ -80,10 +106,41 @@ static double kBOCImageBrowserAnimationTime = 0.3;
                                  startIndex:(NSInteger)startIndex
                                    delegate:(id<BOCImageBrowserViewControllerDelegate>)delegate;
 
+/**
+ *  带动画的退出方法
+ */
+- (void)dismissAnimation;
+
+#pragma mark - Over ride  交给子类实现
+/**
+ *  发送改变时调用
+ *
+ *  @param pageNumber 当前页数 (面向用户的页数，非数组下标)
+ *  @param totalPage  总页数
+ */
+- (void)pageDidChange:(NSInteger)pageNumber totalPage:(NSInteger)totalPage;
+
+/**
+ *  用户长按图片时调用, 如果实现了代理方法"imageBrowser:image:didLongPress:", 这个方法将不会被执行
+ */
+- (void)imageViewDidLongPress:(UIImageView *)imageView;
+
+/**
+ *  用户单击图片是调用, 如果实现了代理方法"imageBrowser:image:didTap:", 这个方法将不会被执行
+ */
+- (void)imageViewDidTap:(UIImageView *)imageView;
+
+/**
+ *  屏幕方向发送改变时调用
+ *
+ *  @param rect 改变方向后控制器view的frame < 在这个方法里面执行会有动画效果 >
+ */
+- (void)orientationChangeWithRect:(CGRect)rect;
+
 @end
 
 /* 
- 已过期的方法
+ 已过期方法的分类
  */
 @interface BOCImageBrowserViewController (ImageBrowserDeprecated)
 
